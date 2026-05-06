@@ -13,7 +13,7 @@ Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.
 | Lint + format | [Biome](https://biomejs.dev) |
 | Unused deps / exports | [Knip](https://knip.dev) |
 | Git hooks | [Lefthook](https://lefthook.dev) (pre-commit Biome+typecheck, pre-push Knip) |
-| Test runner | `bun test` + `happy-dom` + Testing Library *(PR 3)* |
+| Test runner | `bun test` + `happy-dom` + Testing Library |
 | CI | GitHub Actions *(PR 4)* |
 | Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel` adapter) |
 
@@ -36,7 +36,7 @@ bun run lint          # biome check (lint + format check, no writes)
 bun run format        # biome check --write (lint + format with autofix)
 bun run typecheck     # astro check (.astro + .ts + .tsx)
 bun run knip          # find unused files / deps / exports
-bun run test          # bun test (passes with no tests until PR 3)
+bun run test          # bun test (happy-dom + Testing Library)
 bun run ci            # lint + typecheck + knip + test + build (full local CI)
 ```
 
@@ -56,9 +56,15 @@ Copy `.env.example` to `.env.local` and adjust:
 .
 ├── public/                # static assets served as-is
 ├── src/
+│   ├── components/        # React (.tsx) and Astro components
 │   ├── pages/             # one .astro file per route
-│   └── styles/global.css  # imports tailwindcss; design tokens land here in PR 5
+│   ├── styles/global.css  # imports tailwindcss; design tokens land here in PR 5
+│   └── env.d.ts           # ambient type references (bun, astro/client)
+├── tests/
+│   ├── register-dom.ts    # registers happy-dom globals (must preload first)
+│   └── setup.ts           # afterEach cleanup() for @testing-library/react
 ├── astro.config.mjs
+├── bunfig.toml            # bun test preloads
 ├── tsconfig.json
 └── package.json
 ```
@@ -70,9 +76,9 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | PR | Status |
 | --- | --- |
 | 1 — Bootstrap framework | ✅ |
-| 2 — Tooling (Biome, Knip, Lefthook) | ✅ this PR |
-| 3 — Tests (`bun test` + RTL) | next |
-| 4 — CI (GitHub Actions) | |
+| 2 — Tooling (Biome, Knip, Lefthook) | ✅ |
+| 3 — Tests (`bun test` + RTL) | ✅ this PR |
+| 4 — CI (GitHub Actions) | next |
 | 5 — Design tokens + global styles | |
 | 6 — Layout primitives | |
 | 7 — Header rail | |
