@@ -65,7 +65,7 @@ Copy `.env.example` to `.env.local` and adjust:
 
 ## Roadmap
 
-This repo is being built incrementally — see [`C:\Users\jolle\.claude\plans\i-want-to-create-resilient-cat.md`](https://example.invalid) for the PR-by-PR plan.
+This repo is being built incrementally — see the PR list below for the PR-by-PR plan.
 
 | PR | Status |
 | --- | --- |
