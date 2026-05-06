@@ -10,8 +10,9 @@ Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.
 | UI runtime | React 19 + TypeScript (strict) |
 | Styles | [Tailwind v4](https://tailwindcss.com) via `@tailwindcss/vite` |
 | Package manager + runtime | [Bun](https://bun.sh) |
-| Lint + format | [Biome](https://biomejs.dev) *(PR 2)* |
-| Unused deps / exports | [Knip](https://knip.dev) *(PR 2)* |
+| Lint + format | [Biome](https://biomejs.dev) |
+| Unused deps / exports | [Knip](https://knip.dev) |
+| Git hooks | [Lefthook](https://lefthook.dev) (pre-commit Biome+typecheck, pre-push Knip) |
 | Test runner | `bun test` + `happy-dom` + Testing Library *(PR 3)* |
 | CI | GitHub Actions *(PR 4)* |
 | Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel` adapter) |
@@ -27,12 +28,19 @@ The "Open to new roles" toggle is a single boolean that flips a few times a year
 ## Commands
 
 ```sh
-bun install           # install dependencies
+bun install           # install dependencies (also wires lefthook git hooks)
 bun dev               # start local dev server (http://localhost:4321)
 bun run build         # build production output to ./dist + .vercel/output
 bun run preview       # preview the built site locally
-bun astro check       # typecheck .astro + .ts + .tsx
+bun run lint          # biome check (lint + format check, no writes)
+bun run format        # biome check --write (lint + format with autofix)
+bun run typecheck     # astro check (.astro + .ts + .tsx)
+bun run knip          # find unused files / deps / exports
+bun run test          # bun test (passes with no tests until PR 3)
+bun run ci            # lint + typecheck + knip + test + build (full local CI)
 ```
+
+Pre-commit (Lefthook) runs Biome + `astro check` on staged files. Pre-push runs Knip.
 
 ## Environment
 
@@ -57,13 +65,13 @@ Copy `.env.example` to `.env.local` and adjust:
 
 ## Roadmap
 
-This repo is being built incrementally — see [`C:\Users\jolle\.claude\plans\i-want-to-create-resilient-cat.md`](https://example.invalid) for the PR-by-PR plan.
+This repo is being built incrementally — see the PR list below for the PR-by-PR plan.
 
 | PR | Status |
 | --- | --- |
-| 1 — Bootstrap framework | ✅ this PR |
-| 2 — Tooling (Biome, Knip, Lefthook) | next |
-| 3 — Tests (`bun test` + RTL) | |
+| 1 — Bootstrap framework | ✅ |
+| 2 — Tooling (Biome, Knip, Lefthook) | ✅ this PR |
+| 3 — Tests (`bun test` + RTL) | next |
 | 4 — CI (GitHub Actions) | |
 | 5 — Design tokens + global styles | |
 | 6 — Layout primitives | |
