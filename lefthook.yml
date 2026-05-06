@@ -1,0 +1,14 @@
+pre-commit:
+  jobs:
+    - name: biome
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}"
+      run: bun biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    - name: typecheck
+      glob: "*.{ts,tsx,astro}"
+      run: bun astro check
+
+pre-push:
+  jobs:
+    - name: knip
+      run: bun knip
