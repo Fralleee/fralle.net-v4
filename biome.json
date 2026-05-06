@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/dist", "!**/.astro", "!**/.vercel", "!**/node_modules", "!**/public", "!bun.lock"]
+    "includes": ["**", "!**/public", "!bun.lock"]
   },
   "formatter": {
     "enabled": true,
