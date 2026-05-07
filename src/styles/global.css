@@ -1,1 +1,47 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+@theme {
+  --color-canvas: #f5f1ea;
+  --color-paper: #ece6da;
+  --color-rule: #d6cfc0;
+
+  --color-ink: #121821;
+  --color-fg-1: rgb(18 24 33 / 0.92);
+  --color-fg-2: rgb(18 24 33 / 0.6);
+  --color-fg-3: rgb(18 24 33 / 0.4);
+  --color-link: #121821;
+
+  --color-cream: #ffe680;
+  --color-cream-deep: #e9c84a;
+  --color-mint: #b8dcc8;
+  --color-tan: #d9c49e;
+  --color-azure: #2f4d7c;
+
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  body {
+    background: var(--color-canvas);
+    color: var(--color-fg-1);
+    font-family: var(--font-sans);
+    font-weight: 475;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  a {
+    color: var(--color-link);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-cream);
+  }
+}
