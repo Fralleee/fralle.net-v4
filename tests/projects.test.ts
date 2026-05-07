@@ -23,6 +23,7 @@ describe("projects data", () => {
       expect(p.details.length).toBeGreaterThan(20);
       expect(p.tags.length).toBeGreaterThan(0);
       expect(p.logo).toMatch(/^\/projects\/[a-z0-9-]+\.png$/);
+      expect(["web", "extension", "game"]).toContain(p.kind);
       expect(p.links.length).toBeGreaterThan(0);
       for (const link of p.links) {
         expect(link.label).not.toBe("");

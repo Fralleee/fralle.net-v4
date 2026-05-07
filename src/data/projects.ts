@@ -9,12 +9,15 @@ interface ProjectLink {
   href: string;
 }
 
+type ProjectKind = "web" | "extension" | "game";
+
 export interface Project {
   featured?: boolean;
   badge?: string;
   logo: string;
   title: string;
   subtitle: string;
+  kind: ProjectKind;
   url: string;
   details: string;
   tags: readonly string[];
@@ -29,6 +32,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/cooking-with-fralle.png",
     title: "Cooking with Fralle",
     subtitle: "Next.js App",
+    kind: "web",
     url: "https://cooking.fralle.net/",
     details: "Next.js recipe app using Payload CMS. Also contains my best recipes.",
     tags: ["TypeScript", "Next.js", "Payload CMS"],
@@ -49,6 +53,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/copy-code-context.png",
     title: "Copy Context",
     subtitle: "VSCode Extension",
+    kind: "extension",
     url: "https://marketplace.visualstudio.com/items?itemName=Fralle.copy-code-context",
     details:
       "VSCode extension that copies file/folder structure for sharing in Markdown — ready to paste into chats, docs, or code reviews.",
@@ -73,6 +78,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/shotkit.png",
     title: "ShotKit",
     subtitle: "Web App",
+    kind: "web",
     url: "https://shotkit.fralle.net/",
     details: "Screenshot beautifier that lets you paste, style, and export polished screenshots with minimal friction.",
     tags: ["TypeScript", "React"],
@@ -85,6 +91,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/quiz-game.png",
     title: "Quiz Game",
     subtitle: "Web Game",
+    kind: "game",
     url: "https://quiz.fralle.net/",
     details:
       "Real-time multiplayer quiz with AI-generated questions. Create or join a game, pick a topic, and race for points over SSE.",
@@ -98,6 +105,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/code-clicker.png",
     title: "Code Clicker",
     subtitle: "Web Game",
+    kind: "game",
     url: "https://clicker.fralle.net/",
     details:
       "Programming-themed idle game where every building you run generates tech debt that scales the production penalty.",
@@ -111,6 +119,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/disney-plus.png",
     title: "Disney+ Unblur",
     subtitle: "Chrome Extension",
+    kind: "extension",
     url: "https://chromewebstore.google.com/detail/disney+-unblur/epegomjmecdogfefcmadjkbinicbldmb",
     details: "Removes the blur overlay that appears on video controls and subtitles on Disney+.",
     tags: ["TypeScript", "Chrome API"],
@@ -126,6 +135,7 @@ export const projects: readonly Project[] = [
     logo: "/projects/vakt.png",
     title: "VAKT",
     subtitle: "Game · Unity",
+    kind: "game",
     url: "https://www.youtube.com/@vakt-game",
     details: "Tower defense game where you upgrade and protect a single tower against waves of enemies.",
     tags: ["Unity", "C#"],

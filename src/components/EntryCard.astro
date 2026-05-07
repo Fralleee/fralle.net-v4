@@ -13,6 +13,7 @@ const live = "live" in props && props.live === true;
 const company = "company" in props ? props.company : undefined;
 const location = "location" in props ? props.location : undefined;
 const subtitle = "subtitle" in props ? props.subtitle : undefined;
+const kind = "kind" in props ? props.kind : undefined;
 const links = "links" in props ? props.links : undefined;
 const sparkline = "sparkline" in props ? props.sparkline : undefined;
 const featured = "featured" in props && props.featured === true;
@@ -66,7 +67,30 @@ const badge = "badge" in props ? props.badge : undefined;
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <circle cx="12" cy="12" r="3" />
+              {kind === "web" && (
+                <>
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18" />
+                  <path d="M12 3a14 14 0 0 1 4 9 14 14 0 0 1-4 9 14 14 0 0 1-4-9 14 14 0 0 1 4-9Z" />
+                </>
+              )}
+              {kind === "extension" && (
+                <>
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </>
+              )}
+              {kind === "game" && (
+                <>
+                  <rect x="2" y="7" width="20" height="11" rx="3" />
+                  <path d="M6 12.5h4M8 10.5v4" />
+                  <circle cx="15.5" cy="11.5" r="0.6" fill="currentColor" />
+                  <circle cx="18" cy="13.5" r="0.6" fill="currentColor" />
+                </>
+              )}
+              {!kind && <circle cx="12" cy="12" r="3" />}
             </svg>
             <span>{subtitle}</span>
           </div>
