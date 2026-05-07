@@ -113,6 +113,49 @@
     clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
   }
 
+  /* Dual-layer paint rectangle: mint fill behind inline text + tilted ink border outline */
+  .paint-rect {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    z-index: 0;
+  }
+  .paint-rect::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: -4px;
+    bottom: -4px;
+    background: var(--color-mint);
+    z-index: -2;
+    transform: rotate(-0.6deg);
+    clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
+  }
+  .paint-rect::after {
+    content: "";
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: -6px;
+    bottom: -6px;
+    border: 2px solid var(--color-ink);
+    z-index: -1;
+    transform: rotate(0.4deg);
+    clip-path: polygon(0.5% 5%, 99% 0%, 99.5% 96%, 1% 100%, 0.5% 5%);
+    opacity: 0.85;
+  }
+
+  /* Body prose: stacked paragraphs with tight rhythm; no trailing margin on the last paragraph. */
+  .prose-block p {
+    margin: 0 0 16px;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .prose-block p:last-child {
+    margin-bottom: 0;
+  }
+
   /* Imperfect torn-edge paint wash background */
   .paint-wash {
     position: relative;
