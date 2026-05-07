@@ -56,7 +56,8 @@ Copy `.env.example` to `.env.local` and adjust:
 .
 ├── public/                # static assets served as-is
 ├── src/
-│   ├── components/        # React (.tsx) and Astro components
+│   ├── components/        # React (.tsx) + Astro components (TopNav, Shell, Section, Footer, …)
+│   ├── layouts/           # Astro layout wrappers (Base.astro)
 │   ├── pages/             # one .astro file per route
 │   ├── styles/global.css  # tailwindcss + @theme tokens (ink palette) + base styles
 │   └── env.d.ts           # ambient type references (bun, astro/client)
@@ -79,9 +80,9 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 2 — Tooling (Biome, Knip, Lefthook) | ✅ |
 | 3 — Tests (`bun test` + RTL) | ✅ |
 | 4 — CI (GitHub Actions) | ✅ |
-| 5 — Design tokens + global styles | ✅ this PR |
-| 6 — Layout primitives | |
-| 7 — Header rail | |
+| 5 — Design tokens + global styles | ✅ |
+| 6 — Layout primitives | ✅ this PR |
+| 7 — Header rail | next |
 | 8 — About section | |
 | 9 — Experience section | |
 | 10 — Projects section + Sparkline | |

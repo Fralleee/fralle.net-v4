@@ -18,9 +18,26 @@
   --color-mint: #b8dcc8;
   --color-tan: #d9c49e;
   --color-azure: #2f4d7c;
+  --color-pulse: #29dbbb;
 
   --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --shadow-stamp: 1.5px 1.5px 0 0 rgb(18 24 33 / 0.85);
+
+  --animate-status-pulse: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(41 219 187 / 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgb(41 219 187 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(41 219 187 / 0);
+  }
 }
 
 @layer base {
