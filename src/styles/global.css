@@ -229,14 +229,17 @@
   .entry-arrow {
     display: inline-block;
     margin-left: 8px;
-    color: rgb(var(--color-ink-rgb) / 0.5);
+    color: var(--color-ink);
     font-size: 14px;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0;
+    transition:
+      transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.15s;
   }
   .entry:hover .entry-arrow,
   .entry:focus-within .entry-arrow {
     transform: translate(3px, -3px);
-    color: var(--color-ink);
+    opacity: 1;
   }
   .entry-sub {
     display: inline-flex;
