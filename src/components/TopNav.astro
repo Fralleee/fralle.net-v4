@@ -24,9 +24,7 @@ const available = true;
         aria-hidden="true"
         class="block h-2 w-2 rounded-full bg-pulse animate-status-pulse motion-reduce:animate-none"
       ></span>
-      <span class="sr-only md:hidden">
-        {available ? "Available for hire, Sweden, remote" : "Based in Sweden, remote"}
-      </span>
+      <span class="md:hidden">{available ? "Available" : "Sweden"}</span>
       <span class="hidden md:inline">
         {available ? "Available for hire · Sweden (Remote)" : "Sweden (Remote)"}
       </span>
