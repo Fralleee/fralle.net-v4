@@ -10,8 +10,8 @@
   --color-ink-rgb: 18 24 33;
   --color-ink: rgb(var(--color-ink-rgb));
   --color-fg-1: rgb(var(--color-ink-rgb) / 0.92);
-  --color-fg-2: rgb(var(--color-ink-rgb) / 0.6);
-  --color-fg-3: rgb(var(--color-ink-rgb) / 0.4);
+  --color-fg-2: rgb(var(--color-ink-rgb) / 0.7);
+  --color-fg-3: rgb(var(--color-ink-rgb) / 0.65);
   --color-link: var(--color-ink);
 
   --color-cream: #ffe680;
@@ -21,11 +21,13 @@
   --color-azure: #2f4d7c;
   --color-pulse-rgb: 41 219 187;
   --color-pulse: rgb(var(--color-pulse-rgb));
+  --color-available: #0d8a4f;
 
   --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --shadow-stamp: 1.5px 1.5px 0 0 rgb(var(--color-ink-rgb) / 0.85);
+  --shadow-stamp-lg: 2px 2px 0 0 rgb(var(--color-ink-rgb) / 0.85);
 
   --animate-status-pulse: status-pulse 2s infinite;
 }
@@ -43,6 +45,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     background: var(--color-canvas);
     color: var(--color-fg-1);
@@ -62,5 +69,72 @@
 
   ::selection {
     background: var(--color-cream);
+  }
+}
+
+@layer components {
+  /* Hand-drawn marker-pen underline (two near-straight strokes) for inline text */
+  .underline-marker {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .underline-marker::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: -8px;
+    height: 10px;
+    background-color: var(--color-ink);
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 4.5 Q 50 4, 100 4.5 T 198 4.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/><path d='M3 6.5 Q 60 6, 120 6.5 T 197 6.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' opacity='0.85'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 4.5 Q 50 4, 100 4.5 T 198 4.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/><path d='M3 6.5 Q 60 6, 120 6.5 T 197 6.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' opacity='0.85'/></svg>");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  /* Hand-drawn highlighter rectangle painted behind inline text (slightly tilted, soft clip-path edges) */
+  .paint-mark {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    isolation: isolate;
+  }
+  .paint-mark::before {
+    content: "";
+    position: absolute;
+    inset: -4px -6px;
+    background: var(--color-cream);
+    z-index: -1;
+    transform: rotate(-0.6deg);
+    clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
+  }
+
+  /* Imperfect torn-edge paint wash background */
+  .paint-wash {
+    position: relative;
+    isolation: isolate;
+  }
+  .paint-wash::before {
+    content: "";
+    position: absolute;
+    inset: 40px -60px 80px -60px;
+    background:
+      radial-gradient(ellipse 60% 55% at 25% 40%, var(--color-tan) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 50% at 78% 65%, var(--color-cream-deep) 0%, transparent 72%),
+      radial-gradient(ellipse 40% 35% at 55% 30%, var(--color-cream) 0%, transparent 75%);
+    opacity: 0.55;
+    z-index: -1;
+    filter: blur(0.5px);
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200' preserveAspectRatio='none'><defs><filter id='r'><feTurbulence baseFrequency='0.018' numOctaves='2' seed='4'/><feDisplacementMap in='SourceGraphic' scale='28'/></filter></defs><path d='M10,40 Q80,15 160,35 T320,30 Q380,45 395,90 Q380,150 300,165 T140,175 Q60,170 15,140 Q5,90 10,40 Z' fill='black' filter='url(%23r)'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200' preserveAspectRatio='none'><defs><filter id='r'><feTurbulence baseFrequency='0.018' numOctaves='2' seed='4'/><feDisplacementMap in='SourceGraphic' scale='28'/></filter></defs><path d='M10,40 Q80,15 160,35 T320,30 Q380,45 395,90 Q380,150 300,165 T140,175 Q60,170 15,140 Q5,90 10,40 Z' fill='black' filter='url(%23r)'/></svg>");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    pointer-events: none;
   }
 }

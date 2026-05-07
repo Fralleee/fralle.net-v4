@@ -1,0 +1,12 @@
+---
+import { available } from "../data/availability";
+---
+
+{
+  available && (
+    <div class="mb-8 inline-flex items-center gap-2.5 rounded-full border-[1.5px] border-ink/85 bg-cream py-2 pl-3 pr-3.5 text-[13px] font-bold shadow-stamp-lg">
+      <span aria-hidden="true" class="block h-2 w-2 rounded-full bg-available" />
+      <span>Open to new roles</span>
+    </div>
+  )
+}

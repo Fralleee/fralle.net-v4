@@ -1,5 +1,6 @@
 ---
 import Footer from "../components/Footer.astro";
+import HeaderRail from "../components/HeaderRail.astro";
 import Section from "../components/Section.astro";
 import Shell from "../components/Shell.astro";
 import TopNav from "../components/TopNav.astro";
@@ -9,7 +10,8 @@ import Base from "../layouts/Base.astro";
 <Base>
   <TopNav />
   <Shell>
-    <main class="pt-20">
+    <main>
+      <HeaderRail />
       <Section id="about" label="01 — About" title="About" />
       <Section
         id="experience"

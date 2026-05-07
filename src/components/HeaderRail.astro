@@ -1,0 +1,30 @@
+---
+import AvailabilityBadge from "./AvailabilityBadge.astro";
+import Socials from "./Socials.astro";
+---
+
+<header
+  class="paint-wash mb-10 flex flex-col items-start gap-8 border-b border-dashed border-rule pb-8 pt-15 md:flex-row md:items-end md:justify-between md:gap-10"
+>
+  <div class="flex-1">
+    <p
+      class="m-0 mb-5 inline-flex items-center gap-2.5 font-mono text-sm font-medium uppercase tracking-[0.02em] text-ink/70 before:block before:h-px before:w-6 before:bg-ink/40 before:content-['']"
+    >
+      Fullstack Software Engineer
+    </p>
+
+    <h1 class="m-0 mb-[18px] text-[40px] font-bold leading-none tracking-[-0.025em] text-fg-1 md:text-[80px]">
+      Roland<br />
+      <span class="paint-mark">Chelwing</span>.
+    </h1>
+
+    <p class="m-0 mb-7 max-w-[360px] text-[17px] leading-[1.55] text-fg-1">
+      A curious and dedicated programmer with diverse experience spanning
+      <span class="underline-marker">multiple industries</span>.
+    </p>
+
+    <AvailabilityBadge />
+  </div>
+
+  <Socials />
+</header>

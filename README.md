@@ -81,9 +81,9 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 3 — Tests (`bun test` + RTL) | ✅ |
 | 4 — CI (GitHub Actions) | ✅ |
 | 5 — Design tokens + global styles | ✅ |
-| 6 — Layout primitives | ✅ this PR |
-| 7 — Header rail | next |
-| 8 — About section | |
+| 6 — Layout primitives | ✅ |
+| 7 — Header rail | ✅ this PR |
+| 8 — About section | next |
 | 9 — Experience section | |
 | 10 — Projects section + Sparkline | |
 | 11 — Articles section | |
