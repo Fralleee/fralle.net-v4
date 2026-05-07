@@ -6,6 +6,7 @@
   --color-canvas: #f5f1ea;
   --color-paper: #ece6da;
   --color-rule: #d6cfc0;
+  --color-surface: #fff;
 
   --color-ink-rgb: 18 24 33;
   --color-ink: rgb(var(--color-ink-rgb));
@@ -356,7 +357,7 @@
     max-width: 360px;
     margin: 0 0 12px;
     padding: 10px 12px;
-    background: #fff;
+    background: var(--color-surface);
     border: 1px solid rgb(var(--color-ink-rgb) / 0.1);
     border-radius: 6px;
   }
