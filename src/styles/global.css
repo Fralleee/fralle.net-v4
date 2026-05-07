@@ -52,6 +52,7 @@
     font-weight: 475;
     -webkit-font-smoothing: antialiased;
     font-feature-settings: "ss01", "cv11";
+    overflow-x: clip;
   }
 
   a {
