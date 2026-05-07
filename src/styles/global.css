@@ -69,7 +69,7 @@
 }
 
 @layer components {
-  /* Hand-drawn wavy underline behind selected text */
+  /* Hand-drawn marker-pen underline (two near-straight strokes) for inline text */
   .underline-marker {
     position: relative;
     display: inline-block;
@@ -92,7 +92,7 @@
     pointer-events: none;
   }
 
-  /* Hand-drawn highlighter rectangle behind selected text */
+  /* Hand-drawn highlighter rectangle painted behind inline text (slightly tilted, soft clip-path edges) */
   .paint-mark {
     position: relative;
     display: inline-block;
