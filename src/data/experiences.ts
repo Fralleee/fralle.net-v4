@@ -38,7 +38,7 @@ export const experiences: readonly Experience[] = [
     location: "California, US (Remote)",
     details:
       "Helped companies take control over their documents, enhancing the transparency of both internal and external access to company records.",
-    tags: ["TypeScript", "React", "Next.js", "tRPC", "GraphQL", "ElasticSearch", "AWS"],
+    tags: ["TypeScript", "React", "Next.js", "tRPC", "GraphQL", "Elasticsearch", "AWS"],
   },
   {
     period: "2022 — 2023",
@@ -51,7 +51,7 @@ export const experiences: readonly Experience[] = [
     location: "New York, US (Remote)",
     details:
       "Part of the Awareness team, primarily involved in optimizing ads and metrics to improve click-through rates, automation, and impressions.",
-    tags: ["TypeScript", "Webpack", "C#", "SQL", "Redis", "ElasticSearch", "Google Ads"],
+    tags: ["TypeScript", "Webpack", "C#", "SQL", "Redis", "Elasticsearch", "Google Ads"],
   },
   {
     period: "2022 — 2022",
