@@ -162,11 +162,11 @@
     transition:
       transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
       box-shadow 0.15s,
-      background 0.15s;
+      background-color 0.15s;
   }
   .entry:hover,
   .entry:focus-within {
-    transform: translate(-1.5px, -1.5px);
+    transform: translate(-2px, -2px);
     box-shadow: 5px 5px 0 0 rgb(var(--color-ink-rgb) / 0.85);
     background: var(--color-paper);
   }
