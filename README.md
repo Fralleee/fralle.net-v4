@@ -58,7 +58,7 @@ Copy `.env.example` to `.env.local` and adjust:
 ├── src/
 │   ├── components/        # React (.tsx) and Astro components
 │   ├── pages/             # one .astro file per route
-│   ├── styles/global.css  # imports tailwindcss; design tokens land here in PR 5
+│   ├── styles/global.css  # tailwindcss + @theme tokens (ink palette) + base styles
 │   └── env.d.ts           # ambient type references (bun, astro/client)
 ├── tests/
 │   ├── register-dom.ts    # registers happy-dom globals (must preload first)
@@ -78,8 +78,8 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 1 — Bootstrap framework | ✅ |
 | 2 — Tooling (Biome, Knip, Lefthook) | ✅ |
 | 3 — Tests (`bun test` + RTL) | ✅ |
-| 4 — CI (GitHub Actions) | ✅ this PR |
-| 5 — Design tokens + global styles | next |
+| 4 — CI (GitHub Actions) | ✅ |
+| 5 — Design tokens + global styles | ✅ this PR |
 | 6 — Layout primitives | |
 | 7 — Header rail | |
 | 8 — About section | |
