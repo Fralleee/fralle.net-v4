@@ -113,7 +113,7 @@
     clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
   }
 
-  /* Dual-layer paint rectangle: mint fill behind inline text + tilted ink border outline */
+  /* Hand-drawn paint rectangle: tilted mint fill behind inline text with soft clip-path edges. */
   .paint-rect {
     position: relative;
     display: inline-block;
@@ -131,18 +131,6 @@
     z-index: -2;
     transform: rotate(-0.6deg);
     clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
-  }
-  .paint-rect::after {
-    content: "";
-    position: absolute;
-    left: -8px;
-    right: -8px;
-    top: -6px;
-    bottom: -6px;
-    z-index: -1;
-    transform: rotate(0.4deg);
-    clip-path: polygon(0.5% 5%, 99% 0%, 99.5% 96%, 1% 100%, 0.5% 5%);
-    opacity: 0.85;
   }
 
   /* Body prose: stacked paragraphs with tight rhythm; no trailing margin on the last paragraph. */
