@@ -1,0 +1,19 @@
+---
+import EntryCard from "../components/EntryCard.astro";
+import Section from "../components/Section.astro";
+import { projects } from "../data/projects";
+
+const count = `${projects.length} builds`;
+---
+
+<Section id="projects" label="03 — Projects" title="Side quests" count={count}>
+  <ul class="entries">
+    {
+      projects.map((p) => (
+        <li>
+          <EntryCard {...p} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>
