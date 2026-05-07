@@ -82,9 +82,9 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 4 — CI (GitHub Actions) | ✅ |
 | 5 — Design tokens + global styles | ✅ |
 | 6 — Layout primitives | ✅ |
-| 7 — Header rail | ✅ this PR |
-| 8 — About section | next |
-| 9 — Experience section | |
+| 7 — Header rail | ✅ |
+| 8 — About section | ✅ this PR |
+| 9 — Experience section | next |
 | 10 — Projects section + Sparkline | |
 | 11 — Articles section | |
 | 12 — Availability env var + polish | |
