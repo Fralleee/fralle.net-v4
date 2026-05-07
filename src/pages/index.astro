@@ -6,6 +6,7 @@ import Shell from "../components/Shell.astro";
 import TopNav from "../components/TopNav.astro";
 import Base from "../layouts/Base.astro";
 import About from "../sections/About.astro";
+import Experience from "../sections/Experience.astro";
 ---
 
 <Base>
@@ -14,12 +15,7 @@ import About from "../sections/About.astro";
     <main>
       <HeaderRail />
       <About />
-      <Section
-        id="experience"
-        label="02 — Experience"
-        title="Where I've shipped"
-        count="6 roles · 9+ years"
-      />
+      <Experience />
       <Section id="projects" label="03 — Projects" title="Side quests" count="7 builds" />
       <Section
         id="articles"
