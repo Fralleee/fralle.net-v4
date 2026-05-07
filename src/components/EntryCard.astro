@@ -3,26 +3,16 @@ import type { Experience } from "../data/experiences";
 
 type Props = Experience;
 
-const {
-  period,
-  live = false,
-  logoText,
-  logoBg,
-  logoColor = "#151515",
-  title,
-  company,
-  url,
-  location,
-  details,
-  tags,
-} = Astro.props;
+const { period, live = false, logo, title, company, url, location, details, tags } = Astro.props;
 ---
 
 <article class="entry">
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
     <div class="flex flex-col items-start gap-2">
       <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>
-      <div class="entry-logo" style={`background:${logoBg};color:${logoColor};`}>{logoText}</div>
+      <div class="entry-logo">
+        <img src={logo} alt="" loading="lazy" decoding="async" />
+      </div>
     </div>
     <div class="min-w-0">
       <h3 class="entry-title">

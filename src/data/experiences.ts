@@ -1,9 +1,7 @@
 export interface Experience {
   period: string;
   live?: boolean;
-  logoText: string;
-  logoBg: string;
-  logoColor?: string;
+  logo: string;
   title: string;
   company: string;
   url: string;
@@ -16,9 +14,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2024 — Now",
     live: true,
-    logoText: "GH",
-    logoBg: "#151515",
-    logoColor: "#fff",
+    logo: "/logos/getharley.svg",
     title: "Frontend Engineer",
     company: "GetHarley",
     url: "https://getharley.com/",
@@ -29,9 +25,7 @@ export const experiences: readonly Experience[] = [
   },
   {
     period: "2023 — 2024",
-    logoText: "Ni",
-    logoBg: "#7C3AED",
-    logoColor: "#fff",
+    logo: "/logos/nira.svg",
     title: "Senior Software Engineer",
     company: "Nira",
     url: "https://www.nira.com/",
@@ -42,9 +36,7 @@ export const experiences: readonly Experience[] = [
   },
   {
     period: "2022 — 2023",
-    logoText: "SO",
-    logoBg: "#F48024",
-    logoColor: "#fff",
+    logo: "/logos/stackoverflow.svg",
     title: "Software Engineer",
     company: "Stack Overflow",
     url: "https://stackoverflow.com/",
@@ -55,9 +47,7 @@ export const experiences: readonly Experience[] = [
   },
   {
     period: "2022 — 2022",
-    logoText: "Y",
-    logoBg: "#9AC93C",
-    logoColor: "#151515",
+    logo: "/logos/yubico.svg",
     title: "Senior Software Engineer",
     company: "Yubico",
     url: "https://www.yubico.com/",
@@ -68,9 +58,7 @@ export const experiences: readonly Experience[] = [
   },
   {
     period: "2020 — 2022",
-    logoText: "Gs",
-    logoBg: "#E4002B",
-    logoColor: "#fff",
+    logo: "/logos/gamesys.svg",
     title: "Software Engineer",
     company: "Gamesys Group",
     url: "https://www.gamesysgroup.com/",
@@ -80,9 +68,7 @@ export const experiences: readonly Experience[] = [
   },
   {
     period: "2015 — 2020",
-    logoText: "As",
-    logoBg: "#1D4AFF",
-    logoColor: "#fff",
+    logo: "/logos/asitis.svg",
     title: "Software Engineer",
     company: "Asitis",
     url: "https://www.aptic.net/",
