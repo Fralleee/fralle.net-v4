@@ -9,6 +9,7 @@ const available = true;
       class="inline-flex items-center gap-2.5 text-[15px] font-bold tracking-[-0.01em] text-fg-1 no-underline"
     >
       <span
+        aria-hidden="true"
         class="inline-flex h-[22px] w-[22px] items-center justify-center rounded border-[1.5px] border-ink/85 bg-ink font-mono text-[13px] font-bold text-canvas shadow-stamp"
       >
         f
@@ -19,7 +20,13 @@ const available = true;
     </a>
 
     <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.05em] text-ink/65">
-      <span class="block h-2 w-2 rounded-full bg-pulse animate-status-pulse"></span>
+      <span
+        aria-hidden="true"
+        class="block h-2 w-2 rounded-full bg-pulse animate-status-pulse motion-reduce:animate-none"
+      ></span>
+      <span class="sr-only md:hidden">
+        {available ? "Available for hire, Sweden, remote" : "Based in Sweden, remote"}
+      </span>
       <span class="hidden md:inline">
         {available ? "Available for hire · Sweden (Remote)" : "Sweden (Remote)"}
       </span>
