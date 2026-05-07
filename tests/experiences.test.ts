@@ -24,7 +24,7 @@ describe("experiences data", () => {
       expect(e.details.length).toBeGreaterThan(20);
       expect(e.tags.length).toBeGreaterThan(0);
       expect(e.logoText.length).toBeGreaterThan(0);
-      expect(e.logoBg).toMatch(/^#[0-9A-Fa-f]{3,6}$/);
+      expect(e.logoBg).toMatch(/^#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/);
     }
   });
 });
