@@ -83,13 +83,30 @@
     bottom: -8px;
     height: 10px;
     background-color: var(--color-available);
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 6 Q 20 2, 40 5 T 80 4 Q 100 7, 120 4 T 160 5 Q 180 3, 198 6' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'/></svg>");
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 6 Q 20 2, 40 5 T 80 4 Q 100 7, 120 4 T 160 5 Q 180 3, 198 6' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'/></svg>");
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 3.5 Q 50 3, 100 3.5 T 198 3.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/><path d='M3 7 Q 60 6.5, 120 7 T 197 7' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' opacity='0.85'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 3.5 Q 50 3, 100 3.5 T 198 3.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/><path d='M3 7 Q 60 6.5, 120 7 T 197 7' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' opacity='0.85'/></svg>");
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     pointer-events: none;
+  }
+
+  /* Hand-drawn highlighter rectangle behind selected text */
+  .paint-mark {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    isolation: isolate;
+  }
+  .paint-mark::before {
+    content: "";
+    position: absolute;
+    inset: -4px -6px;
+    background: var(--color-cream);
+    z-index: -1;
+    transform: rotate(-0.6deg);
+    clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
   }
 
   /* Imperfect torn-edge paint wash background */
