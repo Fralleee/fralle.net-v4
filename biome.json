@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/public", "!bun.lock"]
+    "includes": ["**", "!**/public", "!**/*.astro", "!bun.lock"]
   },
   "formatter": {
     "enabled": true,

@@ -7,20 +7,39 @@
   --color-paper: #ece6da;
   --color-rule: #d6cfc0;
 
-  --color-ink: #121821;
-  --color-fg-1: rgb(18 24 33 / 0.92);
-  --color-fg-2: rgb(18 24 33 / 0.6);
-  --color-fg-3: rgb(18 24 33 / 0.4);
-  --color-link: #121821;
+  --color-ink-rgb: 18 24 33;
+  --color-ink: rgb(var(--color-ink-rgb));
+  --color-fg-1: rgb(var(--color-ink-rgb) / 0.92);
+  --color-fg-2: rgb(var(--color-ink-rgb) / 0.6);
+  --color-fg-3: rgb(var(--color-ink-rgb) / 0.4);
+  --color-link: var(--color-ink);
 
   --color-cream: #ffe680;
   --color-cream-deep: #e9c84a;
   --color-mint: #b8dcc8;
   --color-tan: #d9c49e;
   --color-azure: #2f4d7c;
+  --color-pulse-rgb: 41 219 187;
+  --color-pulse: rgb(var(--color-pulse-rgb));
 
   --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --shadow-stamp: 1.5px 1.5px 0 0 rgb(var(--color-ink-rgb) / 0.85);
+
+  --animate-status-pulse: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--color-pulse-rgb) / 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgb(var(--color-pulse-rgb) / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--color-pulse-rgb) / 0);
+  }
 }
 
 @layer base {

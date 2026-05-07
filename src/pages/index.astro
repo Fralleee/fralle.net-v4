@@ -1,16 +1,30 @@
 ---
-import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Section from "../components/Section.astro";
+import Shell from "../components/Shell.astro";
+import TopNav from "../components/TopNav.astro";
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <title>Roland Chelwing — Fullstack Software Engineer</title>
-  </head>
-  <body>
-    <h1>Roland Chelwing</h1>
-  </body>
-</html>
+<Base>
+  <TopNav />
+  <Shell>
+    <main class="pt-20">
+      <Section id="about" label="01 — About" title="About" />
+      <Section
+        id="experience"
+        label="02 — Experience"
+        title="Where I've shipped"
+        count="6 roles · 9+ years"
+      />
+      <Section id="projects" label="03 — Projects" title="Side quests" count="7 builds" />
+      <Section
+        id="articles"
+        label="04 — Articles"
+        title="Things I've written"
+        count="3 posts · Medium"
+      />
+    </main>
+    <Footer />
+  </Shell>
+</Base>
