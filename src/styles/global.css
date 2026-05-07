@@ -210,10 +210,6 @@
     font-weight: 700;
     line-height: 1.3;
     letter-spacing: -0.01em;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
   }
   .entry-title a {
     color: var(--color-fg-1);
@@ -230,6 +226,7 @@
   }
   .entry-arrow {
     display: inline-block;
+    margin-left: 8px;
     color: rgb(var(--color-ink-rgb) / 0.5);
     font-size: 14px;
     transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
