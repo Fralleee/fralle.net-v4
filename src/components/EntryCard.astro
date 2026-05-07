@@ -1,17 +1,7 @@
 ---
-interface Props {
-  period: string;
-  live?: boolean;
-  logoText: string;
-  logoBg: string;
-  logoColor?: string;
-  title: string;
-  company: string;
-  url: string;
-  location: string;
-  details: string;
-  tags: readonly string[];
-}
+import type { Experience } from "../data/experiences";
+
+type Props = Experience;
 
 const {
   period,
