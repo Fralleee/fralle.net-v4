@@ -287,6 +287,22 @@
     background: var(--color-cream);
     border-color: rgb(var(--color-ink-rgb) / 0.2);
   }
+  @media (prefers-reduced-motion: reduce) {
+    .entry,
+    .entry-title a,
+    .entry-arrow,
+    .entry-tags .tag {
+      transition: none;
+    }
+    .entry:hover,
+    .entry:focus-within {
+      transform: none;
+    }
+    .entry:hover .entry-arrow,
+    .entry:focus-within .entry-arrow {
+      transform: none;
+    }
+  }
 
   /* Imperfect torn-edge paint wash background */
   .paint-wash {
