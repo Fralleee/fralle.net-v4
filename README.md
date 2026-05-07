@@ -14,7 +14,7 @@ Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.
 | Unused deps / exports | [Knip](https://knip.dev) |
 | Git hooks | [Lefthook](https://lefthook.dev) (pre-commit Biome+typecheck, pre-push Knip) |
 | Test runner | `bun test` + `happy-dom` + Testing Library |
-| CI | GitHub Actions *(PR 4)* |
+| CI | GitHub Actions (`bun run ci` on PRs and `main`) |
 | Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel` adapter) |
 
 ### Why Astro
@@ -77,9 +77,9 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | --- | --- |
 | 1 — Bootstrap framework | ✅ |
 | 2 — Tooling (Biome, Knip, Lefthook) | ✅ |
-| 3 — Tests (`bun test` + RTL) | ✅ this PR |
-| 4 — CI (GitHub Actions) | next |
-| 5 — Design tokens + global styles | |
+| 3 — Tests (`bun test` + RTL) | ✅ |
+| 4 — CI (GitHub Actions) | ✅ this PR |
+| 5 — Design tokens + global styles | next |
 | 6 — Layout primitives | |
 | 7 — Header rail | |
 | 8 — About section | |
