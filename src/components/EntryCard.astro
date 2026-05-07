@@ -8,7 +8,7 @@ const { period, live = false, logo, title, company, url, location, details, tags
 
 <article class="entry">
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
-    <div class="flex flex-col items-start gap-2">
+    <div class="flex flex-col items-start gap-2 md:items-center">
       <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>
       <div class="entry-logo">
         <img src={logo} alt="" loading="lazy" decoding="async" />
