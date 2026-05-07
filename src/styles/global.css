@@ -10,8 +10,8 @@
   --color-ink-rgb: 18 24 33;
   --color-ink: rgb(var(--color-ink-rgb));
   --color-fg-1: rgb(var(--color-ink-rgb) / 0.92);
-  --color-fg-2: rgb(var(--color-ink-rgb) / 0.6);
-  --color-fg-3: rgb(var(--color-ink-rgb) / 0.4);
+  --color-fg-2: rgb(var(--color-ink-rgb) / 0.7);
+  --color-fg-3: rgb(var(--color-ink-rgb) / 0.65);
   --color-link: var(--color-ink);
 
   --color-cream: #ffe680;
