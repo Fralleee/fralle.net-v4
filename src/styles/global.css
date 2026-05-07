@@ -7,11 +7,12 @@
   --color-paper: #ece6da;
   --color-rule: #d6cfc0;
 
-  --color-ink: #121821;
-  --color-fg-1: rgb(18 24 33 / 0.92);
-  --color-fg-2: rgb(18 24 33 / 0.6);
-  --color-fg-3: rgb(18 24 33 / 0.4);
-  --color-link: #121821;
+  --color-ink-rgb: 18 24 33;
+  --color-ink: rgb(var(--color-ink-rgb));
+  --color-fg-1: rgb(var(--color-ink-rgb) / 0.92);
+  --color-fg-2: rgb(var(--color-ink-rgb) / 0.6);
+  --color-fg-3: rgb(var(--color-ink-rgb) / 0.4);
+  --color-link: var(--color-ink);
 
   --color-cream: #ffe680;
   --color-cream-deep: #e9c84a;
