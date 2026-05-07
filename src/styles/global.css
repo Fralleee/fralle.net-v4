@@ -228,7 +228,7 @@
   }
   .entry-arrow {
     display: inline-block;
-    margin-left: 4px;
+    margin-left: -2px;
     color: var(--color-ink);
     font-size: 14px;
     opacity: 0;
@@ -238,7 +238,7 @@
   }
   .entry:hover .entry-arrow,
   .entry:focus-within .entry-arrow {
-    transform: translate(3px, -3px);
+    transform: translateX(3px);
     opacity: 1;
   }
   .entry-sub {
