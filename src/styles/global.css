@@ -381,8 +381,11 @@
     color: rgb(var(--color-ink-rgb) / 0.6);
   }
   .sparkline-svg {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
     height: 32px;
+    display: block;
     color: var(--color-ink);
   }
 
