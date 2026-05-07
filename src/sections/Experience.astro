@@ -1,0 +1,19 @@
+---
+import EntryCard from "../components/EntryCard.astro";
+import Section from "../components/Section.astro";
+import { experiences } from "../data/experiences";
+
+const count = `${experiences.length} roles · 9+ years`;
+---
+
+<Section id="experience" label="02 — Experience" title="Where I've shipped" count={count}>
+  <ul class="entries">
+    {
+      experiences.map((e) => (
+        <li>
+          <EntryCard {...e} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>

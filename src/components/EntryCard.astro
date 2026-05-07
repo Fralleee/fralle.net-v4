@@ -1,0 +1,65 @@
+---
+interface Props {
+  period: string;
+  live?: boolean;
+  logoText: string;
+  logoBg: string;
+  logoColor?: string;
+  title: string;
+  company: string;
+  url: string;
+  location: string;
+  details: string;
+  tags: readonly string[];
+}
+
+const {
+  period,
+  live = false,
+  logoText,
+  logoBg,
+  logoColor = "#151515",
+  title,
+  company,
+  url,
+  location,
+  details,
+  tags,
+} = Astro.props;
+---
+
+<article class="entry">
+  <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
+    <div class="flex flex-col items-start gap-2">
+      <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>
+      <div class="entry-logo" style={`background:${logoBg};color:${logoColor};`}>{logoText}</div>
+    </div>
+    <div class="min-w-0">
+      <h3 class="entry-title">
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {title} · {company}
+          <span class="entry-arrow" aria-hidden="true">↗</span>
+        </a>
+      </h3>
+      <div class="entry-sub">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>{location}</span>
+      </div>
+      <p class="entry-details">{details}</p>
+      <ul class="entry-tags">
+        {tags.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    </div>
+  </div>
+</article>
