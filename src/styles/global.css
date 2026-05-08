@@ -20,6 +20,8 @@
   --color-mint: #b8dcc8;
   --color-tan: #d9c49e;
   --color-azure: #2f4d7c;
+  --color-accent-rgb: 205 91 63;
+  --color-accent: rgb(var(--color-accent-rgb));
   --color-pulse-rgb: 41 219 187;
   --color-pulse: rgb(var(--color-pulse-rgb));
   --color-available: #0d8a4f;
@@ -231,7 +233,7 @@
     color: var(--color-fg-1);
     text-decoration: none;
     font-weight: 700;
-    background-image: linear-gradient(var(--color-ink), var(--color-ink));
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 1.5px;
@@ -243,7 +245,7 @@
   }
   .entry-arrow {
     flex-shrink: 0;
-    color: var(--color-ink);
+    color: var(--color-accent);
     font-size: 14px;
     opacity: 0;
     transition:
