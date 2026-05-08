@@ -312,7 +312,7 @@
     /* Deeper rust (160 68 40 = #a04428) so the accent reads against
      * the cream/cream-deep background — the default rust loses
      * contrast on warm yellow. Override the rgb triplet only; the
-     * global \`--color-accent: rgb(var(--color-accent-rgb))\` rule
+     * global `--color-accent: rgb(var(--color-accent-rgb))` rule
      * resolves with the local triplet at use time, so future
      * `rgb(var(--color-accent-rgb) / 0.15)` lookups stay in sync. */
     --color-accent-rgb: 160 68 40;
