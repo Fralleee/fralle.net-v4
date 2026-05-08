@@ -6,7 +6,12 @@ const root = process.cwd();
 const fontPath = (weight: number) =>
   join(root, `node_modules/@fontsource/inter/files/inter-latin-${weight}-normal.woff`);
 
-const [regular, bold] = await Promise.all([readFile(fontPath(400)), readFile(fontPath(700))]);
+const [regular, medium, semibold, bold] = await Promise.all([
+  readFile(fontPath(400)),
+  readFile(fontPath(500)),
+  readFile(fontPath(600)),
+  readFile(fontPath(700)),
+]);
 
 const response = new ImageResponse(
   <div
@@ -108,6 +113,8 @@ const response = new ImageResponse(
     height: 630,
     fonts: [
       { name: "Inter", data: regular, weight: 400, style: "normal" },
+      { name: "Inter", data: medium, weight: 500, style: "normal" },
+      { name: "Inter", data: semibold, weight: 600, style: "normal" },
       { name: "Inter", data: bold, weight: 700, style: "normal" },
     ],
   },
