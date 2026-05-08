@@ -1,43 +1,140 @@
 ---
+import { Sparkline } from "./Sparkline";
 import type { Experience } from "../data/experiences";
+import type { Project } from "../data/projects";
 
-type Props = Experience;
+type Props = Experience | Project;
 
-const { period, live = false, logo, title, company, url, location, details, tags } = Astro.props;
+const props = Astro.props;
+const { logo, title, url, details, tags } = props;
+
+const period = "period" in props ? props.period : undefined;
+const live = "live" in props && props.live === true;
+const company = "company" in props ? props.company : undefined;
+const location = "location" in props ? props.location : undefined;
+const subtitle = "subtitle" in props ? props.subtitle : undefined;
+const kind = "kind" in props ? props.kind : undefined;
+const links = "links" in props ? props.links : undefined;
+const sparkline = "sparkline" in props ? props.sparkline : undefined;
+const featured = "featured" in props && props.featured === true;
+const badge = "badge" in props ? props.badge : undefined;
 ---
 
-<article class="entry">
+<article class:list={["entry", featured && "entry-featured"]}>
+  {featured && <span class="featured-flag">{badge ?? "Featured"}</span>}
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
     <div class="flex flex-col items-start gap-3 md:items-center md:gap-4">
-      <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>
+      {period && <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>}
       <div class="entry-logo">
         <img src={logo} alt="" loading="lazy" decoding="async" />
       </div>
     </div>
     <div class="min-w-0">
       <h3 class="entry-title">
-        <a href={url} target="_blank" rel="noopener noreferrer">{title} · {company}</a>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {title}{company && ` · ${company}`}
+        </a>
         <span class="entry-arrow" aria-hidden="true">→</span>
       </h3>
-      <div class="entry-sub">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-        <span>{location}</span>
-      </div>
+      {
+        location && (
+          <div class="entry-sub">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span>{location}</span>
+          </div>
+        )
+      }
+      {
+        subtitle && (
+          <div class="entry-sub">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              {kind === "web" && (
+                <>
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18" />
+                  <path d="M12 3a14 14 0 0 1 4 9 14 14 0 0 1-4 9 14 14 0 0 1-4-9 14 14 0 0 1 4-9Z" />
+                </>
+              )}
+              {kind === "extension" && (
+                <>
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </>
+              )}
+              {kind === "game" && (
+                <>
+                  <rect x="2" y="7" width="20" height="11" rx="3" />
+                  <path d="M6 12.5h4M8 10.5v4" />
+                  <circle cx="15.5" cy="11.5" r="0.6" fill="currentColor" />
+                  <circle cx="18" cy="13.5" r="0.6" fill="currentColor" />
+                </>
+              )}
+              {!kind && <circle cx="12" cy="12" r="3" />}
+            </svg>
+            <span>{subtitle}</span>
+          </div>
+        )
+      }
       <p class="entry-details">{details}</p>
+      {
+        sparkline && (
+          <div class="sparkline-wrap">
+            <div class="sparkline-meta">
+              <span class="sparkline-num">{sparkline.value}</span>
+              <span class="sparkline-lbl">{sparkline.label}</span>
+            </div>
+            <Sparkline data={sparkline.data} client:visible />
+          </div>
+        )
+      }
       <ul class="entry-tags">
         {tags.map((t) => <li class="tag">{t}</li>)}
       </ul>
+      {
+        links && links.length > 0 && (
+          <ul class="entry-links">
+            {links.map((l) => (
+              <li>
+                <a href={l.href} target="_blank" rel="noopener noreferrer">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
 </article>
