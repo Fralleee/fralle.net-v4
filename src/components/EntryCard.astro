@@ -1,9 +1,10 @@
 ---
 import { Sparkline } from "./Sparkline";
+import type { Article } from "../data/articles";
 import type { Experience } from "../data/experiences";
 import type { Project } from "../data/projects";
 
-type Props = Experience | Project;
+type Props = Experience | Project | Article;
 
 const props = Astro.props;
 const { logo, title, url, details, tags } = props;
