@@ -5,10 +5,10 @@ export const prerender = false;
 
 const FETCH_TIMEOUT_MS = 8000;
 
-// 10 min fresh + 24h SWR + 24h stale-if-error → PostHog hit at most ~6×/hour.
+// 24h fresh + 24h SWR + 24h stale-if-error → PostHog hit at most once per region per day.
 const successCacheHeaders = {
   "Content-Type": "application/json",
-  "Cache-Control": "public, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400",
+  "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400",
 };
 
 // 1h cache absorbs typo/probe storms; new deploys invalidate.
