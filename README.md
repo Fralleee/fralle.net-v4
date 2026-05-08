@@ -48,7 +48,7 @@ Copy `.env.example` to `.env.local` and adjust:
 
 | Variable | Effect |
 | --- | --- |
-| `PUBLIC_AVAILABLE_FOR_HIRE` | `true` / `false` — controls availability badge & top-nav status. Wired in PR 12. |
+| `PUBLIC_AVAILABLE_FOR_HIRE` | `false` hides the "Open to new roles" badge in the header and the pulse + status text in the top nav. Any other value (or unset) keeps them on. |
 
 ## Project layout
 
@@ -83,8 +83,8 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 5 — Design tokens + global styles | ✅ |
 | 6 — Layout primitives | ✅ |
 | 7 — Header rail | ✅ |
-| 8 — About section | ✅ this PR |
-| 9 — Experience section | next |
-| 10 — Projects section + Sparkline | |
-| 11 — Articles section | |
-| 12 — Availability env var + polish | |
+| 8 — About section | ✅ |
+| 9 — Experience section | ✅ |
+| 10 — Projects section + Sparkline | ✅ |
+| 11 — Articles section | ✅ |
+| 12 — Availability env var + polish | ✅ this PR |
