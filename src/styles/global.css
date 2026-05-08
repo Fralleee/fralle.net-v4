@@ -89,7 +89,6 @@
 }
 
 @layer components {
-  /* Hand-drawn marker-pen underline (two near-straight strokes) for inline text */
   .underline-marker {
     position: relative;
     display: inline-block;
@@ -112,7 +111,6 @@
     pointer-events: none;
   }
 
-  /* Hand-drawn highlighter rectangle painted behind inline text (slightly tilted, soft clip-path edges) */
   .paint-mark {
     position: relative;
     display: inline-block;
@@ -129,7 +127,6 @@
     clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
   }
 
-  /* Hand-drawn paint rectangle: tilted mint fill behind inline text with soft clip-path edges. */
   .paint-rect {
     position: relative;
     display: inline-block;
@@ -149,7 +146,6 @@
     clip-path: polygon(1% 8%, 99% 2%, 100% 92%, 2% 99%);
   }
 
-  /* Body prose: stacked paragraphs with tight rhythm; no trailing margin on the last paragraph. */
   .prose-block p {
     margin: 0 0 16px;
     font-size: 17px;
@@ -159,7 +155,6 @@
     margin-bottom: 0;
   }
 
-  /* Card list shared by Experience / Projects / Articles */
   .entries {
     list-style: none;
     margin: 0;
@@ -316,12 +311,8 @@
     border-color: rgb(var(--color-ink-rgb) / 0.2);
   }
   .entry-featured {
-    /* Deeper rust (160 68 40 = #a04428) so the accent reads against
-     * the cream/cream-deep background — the default rust loses
-     * contrast on warm yellow. Override the rgb triplet only; the
-     * global `--color-accent: rgb(var(--color-accent-rgb))` rule
-     * resolves with the local triplet at use time, so future
-     * `rgb(var(--color-accent-rgb) / 0.15)` lookups stay in sync. */
+    /* Deeper rust (#a04428) — the default rust loses contrast against
+     * the cream / cream-deep background. */
     --color-accent-rgb: 160 68 40;
     background: var(--color-cream);
   }
@@ -445,7 +436,6 @@
     }
   }
 
-  /* Imperfect torn-edge paint wash background */
   .paint-wash {
     position: relative;
     isolation: isolate;
@@ -471,13 +461,6 @@
   }
 }
 
-/* Print styles — turn the page into a clean monochrome one-pager
- * suitable for PDF export. Hides chrome that doesn't carry across
- * to paper (top nav, footer, hover affordances, the sparkline
- * island, the "Latest" ribbon, link-button bar) and surfaces the
- * underlying URL after every external link so a printed copy is
- * still navigable.
- */
 @media print {
   @page {
     margin: 1.5cm;
@@ -520,20 +503,17 @@
     display: none;
   }
 
-  /* Header rail collapses to plain text; the wash + lede painting are gone. */
   .paint-wash {
     margin-bottom: 1rem;
     padding: 0;
     border-bottom: 1px solid #999;
   }
 
-  /* Section heads stop being sticky; lay them above their body content. */
   .section-head {
     position: static;
     margin-bottom: 0.5rem;
   }
 
-  /* Avoid breaking entries / paragraphs across pages. */
   .entry,
   .prose-block p,
   section {
@@ -541,7 +521,6 @@
     page-break-inside: avoid;
   }
 
-  /* Reset card chrome to a hairline divider. */
   .entry {
     background: transparent;
     border: none;
@@ -565,7 +544,6 @@
     height: 32pt;
   }
 
-  /* Surface the underlying URL after every external link. */
   a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-family: var(--font-mono);
@@ -575,9 +553,8 @@
     word-break: break-all;
   }
 
-  /* Don't decorate links with hover underlines on paper. Also undo
-   * the screen-only ellipsis truncation so the appended URL (and any
-   * long titles) wraps onto a second line instead of being clipped. */
+  /* Undo the screen-only ellipsis truncation so the appended `(href)`
+   * wraps onto a second line instead of being clipped. */
   .entry-title {
     display: block;
   }
@@ -588,7 +565,6 @@
     background-image: none;
   }
 
-  /* Headings should stick with the next block. */
   h1,
   h2,
   h3 {

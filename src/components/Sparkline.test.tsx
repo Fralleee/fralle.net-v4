@@ -32,7 +32,6 @@ describe("Sparkline component", () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(() => {
-    // every test installs its own mock; reset to real between tests just in case.
     globalThis.fetch = realFetch;
   });
 
@@ -47,7 +46,7 @@ describe("Sparkline component", () => {
   }
 
   test("renders the loading placeholder before fetch resolves", () => {
-    const fetchMock = mock((_input: RequestInfo | URL, _init?: RequestInit) => new Promise<Response>(() => {})); // never resolves
+    const fetchMock = mock((_input: RequestInfo | URL, _init?: RequestInit) => new Promise<Response>(() => {}));
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
     const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
@@ -138,7 +137,7 @@ describe("Sparkline component", () => {
     let signal: AbortSignal | undefined;
     const fetchMock = mock((_url: string, init?: RequestInit) => {
       signal = init?.signal ?? undefined;
-      return new Promise<Response>(() => {}); // never resolves
+      return new Promise<Response>(() => {});
     });
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
