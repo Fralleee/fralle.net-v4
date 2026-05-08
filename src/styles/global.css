@@ -318,7 +318,7 @@
   }
   .entry-featured:hover,
   .entry-featured:focus-within {
-    background: var(--color-cream-deep);
+    background: color-mix(in oklab, var(--color-cream) 70%, var(--color-cream-deep) 30%);
   }
   .featured-flag {
     position: absolute;
