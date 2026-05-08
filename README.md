@@ -48,7 +48,7 @@ Copy `.env.example` to `.env.local` and adjust:
 
 | Variable | Effect |
 | --- | --- |
-| `PUBLIC_AVAILABLE_FOR_HIRE` | `true` / `false` — controls availability badge & top-nav status. Wired in PR 12. |
+| `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
 
 ## Project layout
 
@@ -60,7 +60,7 @@ Copy `.env.example` to `.env.local` and adjust:
 │   ├── layouts/           # Astro layout wrappers (Base.astro)
 │   ├── pages/             # one .astro file per route
 │   ├── styles/global.css  # tailwindcss + @theme tokens (ink palette) + base styles
-│   └── env.d.ts           # ambient type references (bun, astro/client)
+│   └── env.d.ts           # bun ambient ref + ImportMetaEnv augmentation
 ├── tests/
 │   ├── register-dom.ts    # registers happy-dom globals (must preload first)
 │   └── setup.ts           # afterEach cleanup() for @testing-library/react
@@ -83,8 +83,8 @@ This repo is being built incrementally — see the PR list below for the PR-by-P
 | 5 — Design tokens + global styles | ✅ |
 | 6 — Layout primitives | ✅ |
 | 7 — Header rail | ✅ |
-| 8 — About section | ✅ this PR |
-| 9 — Experience section | next |
-| 10 — Projects section + Sparkline | |
-| 11 — Articles section | |
-| 12 — Availability env var + polish | |
+| 8 — About section | ✅ |
+| 9 — Experience section | ✅ |
+| 10 — Projects section + Sparkline | ✅ |
+| 11 — Articles section | ✅ |
+| 12 — Availability env var + polish | ✅ this PR |
