@@ -1,34 +1,28 @@
 import { describe, expect, test } from "bun:test";
-import { render } from "@testing-library/react";
-import { Sparkline } from "./Sparkline";
+import { computePath } from "./Sparkline";
 
-describe("Sparkline", () => {
-  test("renders nothing for empty or single-point data", () => {
-    const { container: empty } = render(<Sparkline data={[]} />);
-    expect(empty.querySelector("svg")).toBeNull();
-
-    const { container: single } = render(<Sparkline data={[10]} />);
-    expect(single.querySelector("svg")).toBeNull();
-  });
-
-  test("renders one line and one area path with the right point count", () => {
-    const { container } = render(<Sparkline data={[1, 5, 3, 8, 4]} width={200} height={32} />);
-    const svg = container.querySelector("svg");
-    expect(svg).not.toBeNull();
-
-    const paths = container.querySelectorAll("path");
-    expect(paths).toHaveLength(2);
-
-    const linePath = paths[1]?.getAttribute("d") ?? "";
-    const moveToLineSegments = linePath.match(/L /g) ?? [];
-    expect(moveToLineSegments).toHaveLength(4);
+describe("computePath", () => {
+  test("returns null for empty or single-point data", () => {
+    expect(computePath([], 200, 32)).toBeNull();
+    expect(computePath([10], 200, 32)).toBeNull();
   });
 
   test("anchors the line path to the padded edges", () => {
-    const { container } = render(<Sparkline data={[10, 20, 30]} width={100} height={20} />);
-    const linePath = container.querySelectorAll("path")[1]?.getAttribute("d") ?? "";
+    const path = computePath([10, 20, 30], 100, 20);
+    expect(path).not.toBeNull();
+    const line = path?.line ?? "";
+    expect(line.startsWith("M 2,")).toBe(true);
+    expect(line.includes(" L 98,")).toBe(true);
+  });
 
-    expect(linePath.startsWith("M 2,")).toBe(true);
-    expect(linePath.includes(" L 98,")).toBe(true);
+  test("emits N-1 line segments for N points", () => {
+    const path = computePath([1, 5, 3, 8, 4], 200, 32);
+    const segments = path?.line.match(/L /g) ?? [];
+    expect(segments).toHaveLength(4);
+  });
+
+  test("the area path closes back to the baseline", () => {
+    const path = computePath([1, 2, 3], 100, 20);
+    expect(path?.area).toMatch(/L 98,20 L 2,20 Z$/);
   });
 });

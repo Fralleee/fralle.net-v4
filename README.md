@@ -50,10 +50,13 @@ Copy `.env.example` to `.env.local` and adjust:
 | Variable | Effect |
 | --- | --- |
 | `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
+| `POSTHOG_HOST` | Origin used by the `/api/sparkline/[id]` proxy. e.g. `https://eu.posthog.com`. |
+| `POSTHOG_PROJECT_API_KEY` | Personal API key with `insight:read` scope. Server-only — never exposed to the client. |
+| `POSTHOG_PROJECT_ID` | Numeric PostHog project ID. |
 
 ## Architecture
 
-The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible` so the rest of the page ships zero JS.
+The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible`, fetches live data from `/api/sparkline/[id]` (a Vercel serverless route that proxies PostHog with `s-maxage=600, stale-while-revalidate=86400`), and renders the value + path. The rest of the page ships zero JS.
 
 ```text
 src/
@@ -111,17 +114,14 @@ src/
 
 ## Roadmap
 
-Built incrementally across PRs 1–13 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island, the env-driven availability toggle, and the production SEO / OpenGraph / favicon / 404 pass.
+Built incrementally across PRs 1–14 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (now hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, and the production SEO / OpenGraph / favicon / 404 pass.
 
 ## Future enhancements
 
 These items were deferred during the original build (some explicitly per the plan, some called out in PR descriptions). Each is independent — pick any in any order.
 
-### PR 13 — Real sparkline analytics
-Replace the hard-coded `data: [4, 8, 6, …]` arrays in `src/data/projects.ts` with a build-time fetch from PostHog (or whichever analytics is wired by then). Either via an `astro:content` loader or a small script that bakes the array into `projects.ts` before each Vercel build. The sparklines currently show plausible-looking but invented data; this swaps them for real traffic. **Effort: half a day, plus PostHog setup if not already done.**
-
-### PR 14 — Print stylesheet
+### PR 13 — Print stylesheet
 A `@media print` block that hides the `TopNav` / `Footer` / animations, tightens margins, and shows full URLs next to link text so the page exports as a clean one-pager PDF. Useful if Roland ever wants a printable resume that pulls from the same data files. **Effort: a couple of hours.**
 
-### PR 15 — Accent colour
+### PR 14 — Accent colour
 PRs 9–10 deliberately swapped the design source's rust-red accent for ink monochrome to stay inside the existing token palette. If a colour accent is wanted (link hover underline, arrow on focus, featured-card outline), a `--color-accent` token can be added and the existing `:hover` / `:focus-within` rules reach for it instead of `var(--color-ink)`. **Effort: one afternoon, mostly visual iteration.**

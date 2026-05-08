@@ -100,13 +100,11 @@ const badge = "badge" in props ? props.badge : undefined;
       <p class="entry-details">{details}</p>
       {
         sparkline && (
-          <div class="sparkline-wrap">
-            <div class="sparkline-meta">
-              <span class="sparkline-num">{sparkline.value}</span>
-              <span class="sparkline-lbl">{sparkline.label}</span>
-            </div>
-            <Sparkline data={sparkline.data} client:visible />
-          </div>
+          <Sparkline
+            posthogId={sparkline.posthogId}
+            label={sparkline.label}
+            client:visible
+          />
         )
       }
       <ul class="entry-tags">

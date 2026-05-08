@@ -32,13 +32,12 @@ describe("projects data", () => {
     }
   });
 
-  test("sparkline records carry a value, label and at least two data points", () => {
+  test("sparkline records carry a posthog short_id and a label", () => {
     const withSparkline = projects.filter((p) => p.sparkline);
     expect(withSparkline.length).toBeGreaterThan(0);
     for (const p of withSparkline) {
-      expect(p.sparkline?.value).not.toBe("");
+      expect(p.sparkline?.posthogId).toMatch(/^[A-Za-z0-9]+$/);
       expect(p.sparkline?.label).not.toBe("");
-      expect(p.sparkline?.data.length ?? 0).toBeGreaterThanOrEqual(2);
     }
   });
 });
