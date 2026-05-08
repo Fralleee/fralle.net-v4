@@ -7,26 +7,19 @@ const FETCH_TIMEOUT_MS = 8000;
 
 const allowedIds = new Set(projects.flatMap((p) => (p.sparkline ? [p.sparkline.posthogId] : [])));
 
+// 10 min fresh + 24h SWR + 24h stale-if-error → PostHog hit at most ~6×/hour.
 const successCacheHeaders = {
   "Content-Type": "application/json",
-  // Edge caches the response for 10 min; serves stale up to 24h while
-  // re-fetching in the background, and keeps serving stale up to 24h
-  // when revalidation itself errors (PostHog outage). PostHog is hit
-  // at most ~6 times/hour.
   "Cache-Control": "public, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400",
 };
 
-// 404s / 400s for unknown ids stay cached for an hour at the edge so
-// typos / probes don't keep waking the function. New deploys (e.g.
-// when a new project ships its sparkline) invalidate this automatically.
+// 1h cache absorbs typo/probe storms; new deploys invalidate.
 const rejectCacheHeaders = {
   "Content-Type": "application/json",
   "Cache-Control": "public, s-maxage=3600",
 };
 
-// 5xx responses cache briefly so a misconfig or transient PostHog
-// outage can't be turned into a function-invocation fountain by a
-// hot client. Short window so recovery is quick once the issue is fixed.
+// Short cache stops a hot client turning an outage into an invocation fountain.
 const errorCacheHeaders = {
   "Content-Type": "application/json",
   "Cache-Control": "public, s-maxage=60, stale-if-error=300",
@@ -65,9 +58,7 @@ async function fetchJSON(url: string, apiKey: string): Promise<unknown> {
 }
 
 export const GET: APIRoute = async ({ params, request }) => {
-  // Reject query strings — edge caches key on the full URL, so a
-  // trivial `?t=…` cache-buster would defeat s-maxage and force a
-  // function invocation per unique value.
+  // Edge caches key on the full URL — `?t=…` cache-busters would defeat s-maxage.
   if (new URL(request.url).search !== "") {
     return new Response(JSON.stringify({ error: "no query params expected" }), {
       status: 400,
