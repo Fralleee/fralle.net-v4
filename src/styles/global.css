@@ -71,6 +71,11 @@
     text-decoration: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+  a:hover,
+  a:focus-visible {
+    color: var(--color-accent);
   }
 
   ::selection {
