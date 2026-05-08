@@ -1,11 +1,9 @@
 import type { APIRoute } from "astro";
-import { projects } from "../../../data/projects";
+import { allowedSparklineIds } from "../../../data/sparklines";
 
 export const prerender = false;
 
 const FETCH_TIMEOUT_MS = 8000;
-
-const allowedIds = new Set(projects.flatMap((p) => (p.sparkline ? [p.sparkline.posthogId] : [])));
 
 // 10 min fresh + 24h SWR + 24h stale-if-error → PostHog hit at most ~6×/hour.
 const successCacheHeaders = {
@@ -67,7 +65,7 @@ export const GET: APIRoute = async ({ params, request }) => {
   }
 
   const id = params.id;
-  if (typeof id !== "string" || !allowedIds.has(id)) {
+  if (typeof id !== "string" || !allowedSparklineIds.has(id)) {
     return new Response(JSON.stringify({ error: "unknown sparkline id" }), {
       status: 404,
       headers: rejectCacheHeaders,

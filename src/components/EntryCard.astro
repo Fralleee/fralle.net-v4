@@ -1,45 +1,34 @@
 ---
+import type { EntryCardView } from "./entry-card-view";
 import { Sparkline } from "./Sparkline";
-import type { Article } from "../data/articles";
-import type { Experience } from "../data/experiences";
-import type { Project } from "../data/projects";
 
-type Props = Experience | Project | Article;
+type Props = EntryCardView;
 
-const props = Astro.props;
-const { logo, title, url, details, tags } = props;
-
-const period = "period" in props ? props.period : undefined;
-const live = "live" in props && props.live === true;
-const company = "company" in props ? props.company : undefined;
-const location = "location" in props ? props.location : undefined;
-const subtitle = "subtitle" in props ? props.subtitle : undefined;
-const kind = "kind" in props ? props.kind : undefined;
-const links = "links" in props ? props.links : undefined;
-const sparkline = "sparkline" in props ? props.sparkline : undefined;
-const featured = "featured" in props && props.featured === true;
-const badge = "badge" in props ? props.badge : undefined;
-const logoScale = "logoScale" in props ? props.logoScale : undefined;
+const { period, logo, title, url, rows = [], details, sparkline, tags, links, featured } = Astro.props;
 ---
 
 <article class:list={["entry", featured && "entry-featured"]}>
-  {featured && <span class="featured-flag">{badge ?? "Featured"}</span>}
+  {featured && <span class="featured-flag">{featured.badge}</span>}
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
     <div class="flex flex-col items-start gap-3 md:items-center md:gap-4">
-      {period && <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>}
-      <div class="entry-logo" style={logoScale ? `--logo-scale: ${logoScale}` : undefined}>
-        <img src={logo} alt="" loading="lazy" decoding="async" />
+      {
+        period && (
+          <span class:list={["entry-period", period.live && "entry-period-live"]}>{period.text}</span>
+        )
+      }
+      <div class="entry-logo" style={logo.scale ? `--logo-scale: ${logo.scale}` : undefined}>
+        <img src={logo.src} alt="" loading="lazy" decoding="async" />
       </div>
     </div>
     <div class="min-w-0">
       <h3 class="entry-title">
         <a href={url} target="_blank" rel="noopener noreferrer">
-          {title}{company && ` · ${company}`}
+          {title.text}{title.suffix && ` · ${title.suffix}`}
         </a>
         <span class="entry-arrow" aria-hidden="true">→</span>
       </h3>
       {
-        location && (
+        rows.map((row) => (
           <div class="entry-sub">
             <svg
               viewBox="0 0 24 24"
@@ -50,33 +39,20 @@ const logoScale = "logoScale" in props ? props.logoScale : undefined;
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            <span>{location}</span>
-          </div>
-        )
-      }
-      {
-        subtitle && (
-          <div class="entry-sub">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              {kind === "web" && (
+              {row.icon === "location" && (
+                <>
+                  <path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </>
+              )}
+              {row.icon === "kind-web" && (
                 <>
                   <circle cx="12" cy="12" r="9" />
                   <path d="M3 12h18" />
                   <path d="M12 3a14 14 0 0 1 4 9 14 14 0 0 1-4 9 14 14 0 0 1-4-9 14 14 0 0 1 4-9Z" />
                 </>
               )}
-              {kind === "extension" && (
+              {row.icon === "kind-extension" && (
                 <>
                   <rect x="3" y="3" width="7" height="7" rx="1" />
                   <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -84,7 +60,7 @@ const logoScale = "logoScale" in props ? props.logoScale : undefined;
                   <rect x="14" y="14" width="7" height="7" rx="1" />
                 </>
               )}
-              {kind === "game" && (
+              {row.icon === "kind-game" && (
                 <>
                   <rect x="2" y="7" width="20" height="11" rx="3" />
                   <path d="M6 12.5h4M8 10.5v4" />
@@ -92,20 +68,16 @@ const logoScale = "logoScale" in props ? props.logoScale : undefined;
                   <circle cx="18" cy="13.5" r="0.6" fill="currentColor" />
                 </>
               )}
-              {!kind && <circle cx="12" cy="12" r="3" />}
+              {row.icon === "subtitle" && <circle cx="12" cy="12" r="3" />}
             </svg>
-            <span>{subtitle}</span>
+            <span>{row.text}</span>
           </div>
-        )
+        ))
       }
       <p class="entry-details">{details}</p>
       {
         sparkline && (
-          <Sparkline
-            posthogId={sparkline.posthogId}
-            label={sparkline.label}
-            client:visible
-          />
+          <Sparkline posthogId={sparkline.posthogId} label={sparkline.label} client:visible />
         )
       }
       <ul class="entry-tags">

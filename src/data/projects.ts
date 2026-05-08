@@ -1,7 +1,5 @@
-interface SparklineSource {
-  posthogId: string;
-  label: string;
-}
+import type { EntryCardIcon, EntryCardView } from "../components/entry-card-view";
+import { sparklines } from "./sparklines";
 
 interface ProjectLink {
   label: string;
@@ -22,7 +20,7 @@ export interface Project {
   details: string;
   tags: readonly string[];
   links: readonly ProjectLink[];
-  sparkline?: SparklineSource;
+  sparkline?: { posthogId: string; label: string };
 }
 
 export const projects: readonly Project[] = [
@@ -41,10 +39,7 @@ export const projects: readonly Project[] = [
       { label: "Code", href: "https://github.com/Fralleee/cooking-with-fralle-v2/" },
       { label: "Live", href: "https://cooking.fralle.net/" },
     ],
-    sparkline: {
-      posthogId: "7OrpqaRG",
-      label: "Visitors (30 days)",
-    },
+    sparkline: sparklines.cookingWithFralle,
   },
   {
     logo: "/projects/copy-code-context.png",
@@ -63,10 +58,7 @@ export const projects: readonly Project[] = [
         href: "https://marketplace.visualstudio.com/items?itemName=Fralle.copy-code-context",
       },
     ],
-    sparkline: {
-      posthogId: "qZPEi5DV",
-      label: "Commands invoked (90 days)",
-    },
+    sparkline: sparklines.copyContext,
   },
   {
     logo: "/projects/shotkit.png",
@@ -140,3 +132,23 @@ export const projects: readonly Project[] = [
     links: [{ label: "YouTube", href: "https://www.youtube.com/@vakt-game" }],
   },
 ];
+
+const kindIcon: Record<ProjectKind, EntryCardIcon> = {
+  web: "kind-web",
+  extension: "kind-extension",
+  game: "kind-game",
+};
+
+export function projectToCardView(p: Project): EntryCardView {
+  return {
+    logo: { src: p.logo, scale: p.logoScale },
+    title: { text: p.title },
+    url: p.url,
+    rows: [{ icon: kindIcon[p.kind], text: p.subtitle }],
+    details: p.details,
+    sparkline: p.sparkline,
+    tags: p.tags,
+    links: p.links,
+    featured: p.featured ? { badge: p.badge ?? "Featured" } : undefined,
+  };
+}

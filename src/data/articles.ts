@@ -1,3 +1,5 @@
+import type { EntryCardView } from "../components/entry-card-view";
+
 interface ArticleLink {
   label: string;
   href: string;
@@ -58,3 +60,15 @@ export const articles: readonly Article[] = [
     ],
   },
 ];
+
+export function articleToCardView(a: Article): EntryCardView {
+  return {
+    logo: { src: a.logo, scale: a.logoScale },
+    title: { text: a.title },
+    url: a.url,
+    rows: [{ icon: "subtitle", text: a.subtitle }],
+    details: a.details,
+    tags: a.tags,
+    links: a.links,
+  };
+}

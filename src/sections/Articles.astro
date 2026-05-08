@@ -1,19 +1,15 @@
 ---
-import EntryCard from "../components/EntryCard.astro";
-import Section from "../components/Section.astro";
-import { articles } from "../data/articles";
+import EntrySection from "../components/EntrySection.astro";
+import { articleToCardView, articles } from "../data/articles";
 
 const count = `${articles.length} posts · Medium`;
+const items = articles.map(articleToCardView);
 ---
 
-<Section id="articles" label="04 — Articles" title="Things I've written" count={count}>
-  <ul class="entries">
-    {
-      articles.map((a) => (
-        <li>
-          <EntryCard {...a} />
-        </li>
-      ))
-    }
-  </ul>
-</Section>
+<EntrySection
+  id="articles"
+  label="04 — Articles"
+  title="Things I've written"
+  count={count}
+  items={items}
+/>
