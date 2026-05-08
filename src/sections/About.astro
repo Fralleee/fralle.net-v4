@@ -1,5 +1,6 @@
 ---
 import Section from "../components/Section.astro";
+import { available } from "../data/availability";
 ---
 
 <Section id="about" label="01 — About" title="About">
@@ -23,16 +24,34 @@ import Section from "../components/Section.astro";
         >one of the world's most visited websites</a
       >.
     </p>
-    <p>
-      Currently seeking new opportunities, I am passionate about software development and am eager to bring my
-      expertise to a new team.
-    </p>
-    <p>
-      Please feel free to contact me on <a
-        href="https://www.linkedin.com/in/fralle/"
-        rel="noopener noreferrer"
-        target="_blank">LinkedIn</a
-      > or via <a href="mailto:roland.chelwing@gmail.com">email</a> to discuss potential collaborations or job openings.
-    </p>
+    {
+      available && (
+        <p>
+          Currently seeking new opportunities, I am passionate about software development and am
+          eager to bring my expertise to a new team.
+        </p>
+      )
+    }
+    {
+      available ? (
+        <p>
+          Please feel free to contact me on{" "}
+          <a href="https://www.linkedin.com/in/fralle/" rel="noopener noreferrer" target="_blank">
+            LinkedIn
+          </a>{" "}
+          or via <a href="mailto:roland.chelwing@gmail.com">email</a> to discuss potential
+          collaborations or job openings.
+        </p>
+      ) : (
+        <p>
+          You'll find me on{" "}
+          <a href="https://www.linkedin.com/in/fralle/" rel="noopener noreferrer" target="_blank">
+            LinkedIn
+          </a>
+          , or you can <a href="mailto:roland.chelwing@gmail.com">email</a> me directly. Always
+          happy to talk shop.
+        </p>
+      )
+    }
   </div>
 </Section>
