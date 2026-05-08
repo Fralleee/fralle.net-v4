@@ -83,9 +83,13 @@ export const GET: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const host = import.meta.env.POSTHOG_HOST;
-  const apiKey = import.meta.env.POSTHOG_PROJECT_API_KEY;
-  const projectId = import.meta.env.POSTHOG_PROJECT_ID;
+  // process.env reads at request time, so flipping these vars on Vercel
+  // takes effect without a rebuild. import.meta.env is statically
+  // replaced at build, which would bake `undefined` into the function
+  // if the vars weren't present when Vercel built the deploy.
+  const host = process.env.POSTHOG_HOST;
+  const apiKey = process.env.POSTHOG_PROJECT_API_KEY;
+  const projectId = process.env.POSTHOG_PROJECT_ID;
   if (!host || !apiKey || !projectId) {
     return new Response(JSON.stringify({ error: "PostHog not configured" }), {
       status: 503,
