@@ -241,12 +241,18 @@
     background-image: linear-gradient(var(--color-accent), var(--color-accent));
     background-repeat: no-repeat;
     background-position: 0 100%;
-    background-size: 0% 1.5px;
+    background-size: 0% 2px;
     transition: background-size 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .entry:hover .entry-title a,
   .entry:focus-within .entry-title a {
-    background-size: 100% 1.5px;
+    background-size: 100% 2px;
+  }
+  /* The card's :focus-within already animates the rust underline + lifts
+   * the card; the global :focus-visible ink ring would stack on top and
+   * read as a competing "thicker" indicator. Suppress it just here. */
+  .entry-title a:focus-visible {
+    outline: none;
   }
   .entry-arrow {
     flex-shrink: 0;
