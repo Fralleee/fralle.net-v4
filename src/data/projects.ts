@@ -1,7 +1,6 @@
-interface SparklineData {
-  value: string;
+interface SparklineSource {
+  posthogId: string;
   label: string;
-  data: readonly number[];
 }
 
 interface ProjectLink {
@@ -22,7 +21,7 @@ export interface Project {
   details: string;
   tags: readonly string[];
   links: readonly ProjectLink[];
-  sparkline?: SparklineData;
+  sparkline?: SparklineSource;
 }
 
 export const projects: readonly Project[] = [
@@ -41,12 +40,8 @@ export const projects: readonly Project[] = [
       { label: "Live", href: "https://cooking.fralle.net/" },
     ],
     sparkline: {
-      value: "1.2k",
-      label: "Visitors (30d)",
-      data: [
-        4, 8, 6, 12, 9, 15, 18, 22, 17, 28, 24, 32, 29, 35, 31, 38, 42, 36, 44, 48, 52, 46, 55, 58, 53, 62, 68, 64, 72,
-        76,
-      ],
+      posthogId: "7OrpqaRG",
+      label: "Visitors (30 days)",
     },
   },
   {
@@ -66,12 +61,8 @@ export const projects: readonly Project[] = [
       },
     ],
     sparkline: {
-      value: "8.4k",
-      label: "Commands invoked (90d)",
-      data: [
-        12, 18, 15, 24, 22, 28, 35, 32, 40, 38, 45, 52, 48, 56, 62, 58, 68, 72, 69, 76, 82, 78, 85, 92, 88, 96, 102, 98,
-        108, 115,
-      ],
+      posthogId: "qZPEi5DV",
+      label: "Commands invoked (90 days)",
     },
   },
   {
