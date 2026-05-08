@@ -48,6 +48,7 @@ async function writeIco(svg: string, sizes: number[], fileName: string) {
 
 console.log("Generating icon set from src/assets/icon.svg...");
 await Promise.all([
+  writeFile(join(publicDir, "icon.svg"), baseSvg),
   writePng(baseSvg, 180, "apple-touch-icon.png"),
   writePng(baseSvg, 192, "android-chrome-192x192.png"),
   writePng(baseSvg, 512, "android-chrome-512x512.png"),
@@ -55,4 +56,5 @@ await Promise.all([
   writePng(maskableSvg, 512, "android-chrome-maskable-512x512.png"),
   writeIco(baseSvg, [16, 32, 48], "favicon.ico"),
 ]);
+console.log("  ✓ icon.svg (copied from src/assets/)");
 console.log("Done.");

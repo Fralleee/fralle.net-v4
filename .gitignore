@@ -6,6 +6,7 @@ dist/
 .astro/
 
 # generated icons (regenerated from src/assets/icon.svg by scripts/generate-icons.ts)
+public/icon.svg
 public/apple-touch-icon.png
 public/android-chrome-*.png
 public/favicon.ico
