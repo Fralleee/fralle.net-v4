@@ -19,7 +19,7 @@ Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.
 
 ### Why Astro
 
-The site is one route, mostly static (about / experience / projects / articles), with three small interactive islands (palette state, sparklines, availability flag). Astro ships zero JS by default and hydrates only the React components that need it — Lighthouse 100 out of the box.
+The site is one route, mostly static (about / experience / projects / articles), with one small interactive island (the project sparklines). Astro ships zero JS by default and hydrates only the React components that need it — Lighthouse 100 out of the box.
 
 ### Why an env var (not a feature flag service) for availability
 
@@ -50,41 +50,75 @@ Copy `.env.example` to `.env.local` and adjust:
 | --- | --- |
 | `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
 
+## Architecture
+
+The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible` so the rest of the page ships zero JS.
+
+```text
+src/
+├── data/
+│   ├── availability.ts    # parseAvailable(env) -> boolean (build-time)
+│   ├── experiences.ts     # 6 records: period, logo, title, company, …
+│   ├── projects.ts        # 7 records: subtitle, kind, links, optional sparkline
+│   └── articles.ts        # 3 Medium posts: subtitle, links
+├── sections/
+│   ├── About.astro        # prose, paint-rect highlights, contact block
+│   ├── Experience.astro
+│   ├── Projects.astro
+│   └── Articles.astro
+└── components/
+    ├── EntryCard.astro    # union props: Experience | Project | Article
+    ├── Sparkline.tsx      # React island, pure SVG
+    ├── HeaderRail.astro   # role / name / lede / availability badge / socials
+    ├── TopNav.astro       # sticky brand bar + status row
+    ├── AvailabilityBadge.astro
+    ├── Section.astro      # 2-column grid with sticky head on md+
+    ├── Shell.astro        # max-width container
+    ├── Footer.astro
+    └── Socials.astro
+```
+
 ## Project layout
 
 ```text
 .
-├── public/                # static assets served as-is
-├── src/
-│   ├── components/        # React (.tsx) + Astro components (TopNav, Shell, Section, Footer, …)
-│   ├── layouts/           # Astro layout wrappers (Base.astro)
-│   ├── pages/             # one .astro file per route
-│   ├── styles/global.css  # tailwindcss + @theme tokens (ink palette) + base styles
-│   └── env.d.ts           # bun ambient ref + ImportMetaEnv augmentation
-├── tests/
+├── public/                # static assets (favicon, brand logos, project shots, articles)
+├── src/                   # see Architecture above
+├── tests/                 # data-shape contracts + DOM/RTL harness
 │   ├── register-dom.ts    # registers happy-dom globals (must preload first)
-│   └── setup.ts           # afterEach cleanup() for @testing-library/react
+│   ├── setup.ts           # afterEach cleanup() for @testing-library/react
+│   ├── experiences.test.ts
+│   ├── projects.test.ts
+│   ├── articles.test.ts
+│   └── availability.test.ts
+│                          # component tests are colocated, e.g.
+│                          # src/components/Sparkline.test.tsx
 ├── astro.config.mjs
 ├── bunfig.toml            # bun test preloads
 ├── tsconfig.json
 └── package.json
 ```
 
+## Deploy
+
+`main` auto-deploys to Vercel via the `@astrojs/vercel` adapter. To flip the availability toggle without a code change: Vercel dashboard → Project → Settings → Environment Variables → set `PUBLIC_AVAILABLE_FOR_HIRE` to `true` (or any other value to disable), redeploy. The change takes ~30 seconds end-to-end.
+
 ## Roadmap
 
-This repo is being built incrementally — see the PR list below for the PR-by-PR plan.
+Built incrementally across PRs 1–12 — see git history for the per-step rationale. The full roadmap shipped: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island, and the env-driven availability toggle.
 
-| PR | Status |
-| --- | --- |
-| 1 — Bootstrap framework | ✅ |
-| 2 — Tooling (Biome, Knip, Lefthook) | ✅ |
-| 3 — Tests (`bun test` + RTL) | ✅ |
-| 4 — CI (GitHub Actions) | ✅ |
-| 5 — Design tokens + global styles | ✅ |
-| 6 — Layout primitives | ✅ |
-| 7 — Header rail | ✅ |
-| 8 — About section | ✅ |
-| 9 — Experience section | ✅ |
-| 10 — Projects section + Sparkline | ✅ |
-| 11 — Articles section | ✅ |
-| 12 — Availability env var + polish | ✅ this PR |
+## Future enhancements
+
+These items were deferred during the original build (some explicitly per the plan, some called out in PR descriptions). Each is independent — pick any in any order.
+
+### PR 13 — Production extras
+SEO meta + OpenGraph image, `sitemap.xml` via `@astrojs/sitemap`, `robots.txt`, JSON-LD Person schema, full favicon set (192/512 PNG, maskable, apple-touch), and a `404.astro` page. The single highest-ROI follow-up — without it the site won't surface properly when shared on LinkedIn or in Google results, which is the primary distribution channel for a job-hunt portfolio. **Effort: ~half a day.**
+
+### PR 14 — Real sparkline analytics
+Replace the hard-coded `data: [4, 8, 6, …]` arrays in `src/data/projects.ts` with a build-time fetch from PostHog (or whichever analytics is wired by then). Either via an `astro:content` loader or a small script that bakes the array into `projects.ts` before each Vercel build. The sparklines currently show plausible-looking but invented data; this swaps them for real traffic. **Effort: half a day, plus PostHog setup if not already done.**
+
+### PR 15 — Print stylesheet
+A `@media print` block that hides the `TopNav` / `Footer` / animations, tightens margins, and shows full URLs next to link text so the page exports as a clean one-pager PDF. Useful if Roland ever wants a printable resume that pulls from the same data files. **Effort: a couple of hours.**
+
+### PR 16 — Accent colour
+PRs 9–10 deliberately swapped the design source's rust-red accent for ink monochrome to stay inside the existing token palette. If a colour accent is wanted (link hover underline, arrow on focus, featured-card outline), a `--color-accent` token can be added and the existing `:hover` / `:focus-within` rules reach for it instead of `var(--color-ink)`. **Effort: one afternoon, mostly visual iteration.**
