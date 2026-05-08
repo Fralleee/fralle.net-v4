@@ -420,6 +420,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    a,
     .entry,
     .entry-title a,
     .entry-arrow,
