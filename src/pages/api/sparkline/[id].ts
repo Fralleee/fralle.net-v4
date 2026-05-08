@@ -7,11 +7,21 @@ const FETCH_TIMEOUT_MS = 8000;
 
 const allowedIds = new Set(projects.flatMap((p) => (p.sparkline ? [p.sparkline.posthogId] : [])));
 
-const cacheHeaders = {
+const successCacheHeaders = {
   "Content-Type": "application/json",
   // Edge caches the response for 10 min; serves stale up to 24h while
-  // re-fetching in the background. PostHog is hit at most ~6 times/hour.
-  "Cache-Control": "public, s-maxage=600, stale-while-revalidate=86400",
+  // re-fetching in the background, and keeps serving stale up to 24h
+  // when revalidation itself errors (PostHog outage). PostHog is hit
+  // at most ~6 times/hour.
+  "Cache-Control": "public, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400",
+};
+
+// 404s for unknown ids stay cached for an hour at the edge so typos /
+// probes don't keep waking the function. New deploys (e.g. when a new
+// project ships its sparkline) invalidate this automatically.
+const notFoundCacheHeaders = {
+  "Content-Type": "application/json",
+  "Cache-Control": "public, s-maxage=3600",
 };
 
 interface PostHogInsightListItem {
@@ -51,7 +61,7 @@ export const GET: APIRoute = async ({ params }) => {
   if (typeof id !== "string" || !allowedIds.has(id)) {
     return new Response(JSON.stringify({ error: "unknown sparkline id" }), {
       status: 404,
-      headers: { "Content-Type": "application/json" },
+      headers: notFoundCacheHeaders,
     });
   }
 
@@ -75,11 +85,12 @@ export const GET: APIRoute = async ({ params }) => {
     if (!insightId) {
       return new Response(JSON.stringify({ error: "insight not found" }), {
         status: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: notFoundCacheHeaders,
       });
     }
 
-    const detailUrl = new URL(`/api/projects/${projectId}/insights/${insightId}/?refresh=force_blocking`, host);
+    const detailUrl = new URL(`/api/projects/${projectId}/insights/${insightId}/`, host);
+    detailUrl.searchParams.set("refresh", "force_blocking");
     const detail = (await fetchJSON(detailUrl.toString(), apiKey)) as PostHogInsightDetail;
     const data = detail.result?.[0]?.data;
     if (!Array.isArray(data) || !data.every((n) => typeof n === "number")) {
@@ -92,7 +103,7 @@ export const GET: APIRoute = async ({ params }) => {
     const total = data.reduce((a, b) => a + b, 0);
     return new Response(JSON.stringify({ value: formatTotal(total), data }), {
       status: 200,
-      headers: cacheHeaders,
+      headers: successCacheHeaders,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "unknown error";
