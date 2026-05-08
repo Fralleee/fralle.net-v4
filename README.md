@@ -115,14 +115,8 @@ SEO meta + OpenGraph image, `sitemap.xml` via `@astrojs/sitemap`, `robots.txt`, 
 ### PR 14 — Real sparkline analytics
 Replace the hard-coded `data: [4, 8, 6, …]` arrays in `src/data/projects.ts` with a build-time fetch from PostHog (or whichever analytics is wired by then). Either via an `astro:content` loader or a small script that bakes the array into `projects.ts` before each Vercel build. The sparklines currently show plausible-looking but invented data; this swaps them for real traffic. **Effort: half a day, plus PostHog setup if not already done.**
 
-### PR 15 — Theme variants
-The design source baked `editorial`, `soft`, `minimal`, and `terminal` themes into CSS variables; only the ink theme is wired. Lighting up the others is an `@theme` override per `[data-theme="…"]` selector. Adding a runtime toggle (URL param `?theme=…` or a footer link) is small follow-on work. **Effort: half a day if just wiring tokens; +half a day for a toggle UI.**
-
-### PR 16 — Print stylesheet
+### PR 15 — Print stylesheet
 A `@media print` block that hides the `TopNav` / `Footer` / animations, tightens margins, and shows full URLs next to link text so the page exports as a clean one-pager PDF. Useful if Roland ever wants a printable resume that pulls from the same data files. **Effort: a couple of hours.**
 
-### PR 17 — MDX article bodies
-Currently each article is a card linking out to Medium. Switching to MDX bodies hosted under `src/content/articles/` would let the three posts live on `fralle.net/articles/<slug>` instead, control the styling, and add reading-time estimates. Trade-off: maintenance moves from Medium's editor to the repo. **Effort: a day, including the per-article route + a short content-collection schema.**
-
-### PR 18 — Accent colour
+### PR 16 — Accent colour
 PRs 9–10 deliberately swapped the design source's rust-red accent for ink monochrome to stay inside the existing token palette. If a colour accent is wanted (link hover underline, arrow on focus, featured-card outline), a `--color-accent` token can be added and the existing `:hover` / `:focus-within` rules reach for it instead of `var(--color-ink)`. **Effort: one afternoon, mostly visual iteration.**
