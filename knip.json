@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": ["src/pages/**/*.{astro,ts,tsx}"],
-  "project": ["src/**/*.{astro,ts,tsx,css}", "*.{ts,mjs,js}"]
+  "entry": ["src/pages/**/*.{astro,ts,tsx}", "scripts/*.{ts,tsx}"],
+  "project": ["src/**/*.{astro,ts,tsx,css}", "scripts/**/*.{ts,tsx}", "*.{ts,mjs,js}"],
+  "ignoreDependencies": ["@fontsource/inter"]
 }

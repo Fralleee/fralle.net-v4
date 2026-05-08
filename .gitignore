@@ -5,6 +5,13 @@ dist/
 # generated types
 .astro/
 
+# generated icons (regenerated from src/assets/icon.svg by scripts/generate-icons.ts)
+public/icon.svg
+public/apple-touch-icon.png
+public/android-chrome-*.png
+public/favicon.ico
+public/og.png
+
 # dependencies
 node_modules/
 

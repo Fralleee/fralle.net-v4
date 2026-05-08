@@ -1,0 +1,30 @@
+---
+import Footer from "../components/Footer.astro";
+import Shell from "../components/Shell.astro";
+import TopNav from "../components/TopNav.astro";
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Page not found — Roland Chelwing"
+  description="That page doesn't exist on fralle.net."
+  noindex
+>
+  <TopNav />
+  <Shell>
+    <main class="flex flex-1 flex-col items-start justify-center py-20">
+      <p
+        class="m-0 mb-5 inline-flex items-center gap-2.5 font-mono text-sm font-medium uppercase tracking-[0.02em] text-ink/70 before:block before:h-px before:w-6 before:bg-ink/40 before:content-['']"
+      >
+        404 — Not Found
+      </p>
+      <h1 class="m-0 mb-[18px] text-[40px] font-bold leading-none tracking-[-0.025em] text-fg-1 md:text-[80px]">
+        Lost in <span class="paint-mark">orbit</span>.
+      </h1>
+      <p class="m-0 mb-7 max-w-[400px] text-[17px] leading-[1.55] text-fg-1">
+        That page doesn't exist (or it never did). Head back to the <a href="/">home page</a> and try again.
+      </p>
+    </main>
+    <Footer />
+  </Shell>
+</Base>

@@ -4,12 +4,30 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = "Roland Chelwing — Fullstack Software Engineer",
   description = "Roland Chelwing — fullstack software engineer based in Sweden.",
+  noindex = false,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Roland Chelwing",
+  jobTitle: "Fullstack Software Engineer",
+  url: Astro.site?.href,
+  sameAs: [
+    "https://github.com/Fralleee/",
+    "https://www.linkedin.com/in/fralle/",
+    "https://medium.com/@fralle/",
+    "https://dev.to/fralleee",
+  ],
+};
 ---
 
 <!doctype html>
@@ -18,11 +36,35 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#f5f1ea" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Roland Chelwing" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL("/og.png", Astro.site).href} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
   </head>
-  <body>
+  <body class="flex min-h-screen flex-col">
     <slot />
   </body>
 </html>
