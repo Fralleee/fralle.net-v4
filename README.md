@@ -60,7 +60,7 @@ Copy `.env.example` to `.env.local` and adjust:
 │   ├── layouts/           # Astro layout wrappers (Base.astro)
 │   ├── pages/             # one .astro file per route
 │   ├── styles/global.css  # tailwindcss + @theme tokens (ink palette) + base styles
-│   └── env.d.ts           # ambient type references (bun, astro/client)
+│   └── env.d.ts           # bun ambient ref + ImportMetaEnv augmentation
 ├── tests/
 │   ├── register-dom.ts    # registers happy-dom globals (must preload first)
 │   └── setup.ts           # afterEach cleanup() for @testing-library/react
