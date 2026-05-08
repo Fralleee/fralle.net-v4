@@ -553,8 +553,16 @@
     word-break: break-all;
   }
 
-  /* Don't decorate links with hover underlines on paper. */
+  /* Don't decorate links with hover underlines on paper. Also undo
+   * the screen-only ellipsis truncation so the appended URL (and any
+   * long titles) wraps onto a second line instead of being clipped. */
+  .entry-title {
+    display: block;
+  }
   .entry-title a {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
     background-image: none;
   }
 
