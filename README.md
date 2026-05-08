@@ -114,11 +114,4 @@ src/
 
 ## Roadmap
 
-Built incrementally across PRs 1–15 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, the production SEO / OpenGraph / favicon / 404 pass, and a print stylesheet for clean PDF export.
-
-## Future enhancements
-
-These items were deferred during the original build (some explicitly per the plan, some called out in PR descriptions). Each is independent — pick any in any order.
-
-### Accent colour
-PRs 9–10 deliberately swapped the design source's rust-red accent for ink monochrome to stay inside the existing token palette. If a colour accent is wanted (link hover underline, arrow on focus, featured-card outline), a `--color-accent` token can be added and the existing `:hover` / `:focus-within` rules reach for it instead of `var(--color-ink)`. **Effort: one afternoon, mostly visual iteration.**
+Built incrementally across PRs 1–16 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, the production SEO / OpenGraph / favicon / 404 pass, a print stylesheet for clean PDF export, and a rust-orange accent on hover/focus.
