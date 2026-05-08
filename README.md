@@ -48,7 +48,7 @@ Copy `.env.example` to `.env.local` and adjust:
 
 | Variable | Effect |
 | --- | --- |
-| `PUBLIC_AVAILABLE_FOR_HIRE` | `false` hides the "Open to new roles" badge in the header and the pulse + status text in the top nav. Any other value (or unset) keeps them on. |
+| `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
 
 ## Project layout
 
