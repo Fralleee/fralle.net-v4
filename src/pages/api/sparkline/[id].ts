@@ -16,12 +16,20 @@ const successCacheHeaders = {
   "Cache-Control": "public, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400",
 };
 
-// 404s for unknown ids stay cached for an hour at the edge so typos /
-// probes don't keep waking the function. New deploys (e.g. when a new
-// project ships its sparkline) invalidate this automatically.
-const notFoundCacheHeaders = {
+// 404s / 400s for unknown ids stay cached for an hour at the edge so
+// typos / probes don't keep waking the function. New deploys (e.g.
+// when a new project ships its sparkline) invalidate this automatically.
+const rejectCacheHeaders = {
   "Content-Type": "application/json",
   "Cache-Control": "public, s-maxage=3600",
+};
+
+// 5xx responses cache briefly so a misconfig or transient PostHog
+// outage can't be turned into a function-invocation fountain by a
+// hot client. Short window so recovery is quick once the issue is fixed.
+const errorCacheHeaders = {
+  "Content-Type": "application/json",
+  "Cache-Control": "public, s-maxage=60, stale-if-error=300",
 };
 
 interface PostHogInsightListItem {
@@ -56,12 +64,22 @@ async function fetchJSON(url: string, apiKey: string): Promise<unknown> {
   }
 }
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
+  // Reject query strings — edge caches key on the full URL, so a
+  // trivial `?t=…` cache-buster would defeat s-maxage and force a
+  // function invocation per unique value.
+  if (new URL(request.url).search !== "") {
+    return new Response(JSON.stringify({ error: "no query params expected" }), {
+      status: 400,
+      headers: rejectCacheHeaders,
+    });
+  }
+
   const id = params.id;
   if (typeof id !== "string" || !allowedIds.has(id)) {
     return new Response(JSON.stringify({ error: "unknown sparkline id" }), {
       status: 404,
-      headers: notFoundCacheHeaders,
+      headers: rejectCacheHeaders,
     });
   }
 
@@ -71,7 +89,7 @@ export const GET: APIRoute = async ({ params }) => {
   if (!host || !apiKey || !projectId) {
     return new Response(JSON.stringify({ error: "PostHog not configured" }), {
       status: 503,
-      headers: { "Content-Type": "application/json" },
+      headers: errorCacheHeaders,
     });
   }
 
@@ -85,7 +103,7 @@ export const GET: APIRoute = async ({ params }) => {
     if (!insightId) {
       return new Response(JSON.stringify({ error: "insight not found" }), {
         status: 404,
-        headers: notFoundCacheHeaders,
+        headers: rejectCacheHeaders,
       });
     }
 
@@ -96,7 +114,7 @@ export const GET: APIRoute = async ({ params }) => {
     if (!Array.isArray(data) || !data.every((n) => typeof n === "number")) {
       return new Response(JSON.stringify({ error: "unexpected payload shape" }), {
         status: 502,
-        headers: { "Content-Type": "application/json" },
+        headers: errorCacheHeaders,
       });
     }
 
@@ -109,7 +127,7 @@ export const GET: APIRoute = async ({ params }) => {
     const message = error instanceof Error ? error.message : "unknown error";
     return new Response(JSON.stringify({ error: message }), {
       status: 502,
-      headers: { "Content-Type": "application/json" },
+      headers: errorCacheHeaders,
     });
   }
 };
