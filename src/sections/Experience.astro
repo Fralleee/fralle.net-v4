@@ -1,22 +1,18 @@
 ---
-import EntryCard from "../components/EntryCard.astro";
-import Section from "../components/Section.astro";
-import { experiences } from "../data/experiences";
+import EntrySection from "../components/EntrySection.astro";
+import { experienceToCardView, experiences } from "../data/experiences";
 
 const startYears = experiences.map((e) => Number.parseInt(e.period, 10)).filter(Number.isFinite);
 const earliest = Math.min(...startYears);
 const years = new Date().getFullYear() - earliest;
 const count = `${experiences.length} roles · ${years}+ years`;
+const items = experiences.map(experienceToCardView);
 ---
 
-<Section id="experience" label="02 — Experience" title="Where I've shipped" count={count}>
-  <ul class="entries">
-    {
-      experiences.map((e) => (
-        <li>
-          <EntryCard {...e} />
-        </li>
-      ))
-    }
-  </ul>
-</Section>
+<EntrySection
+  id="experience"
+  label="02 — Experience"
+  title="Where I've shipped"
+  count={count}
+  items={items}
+/>

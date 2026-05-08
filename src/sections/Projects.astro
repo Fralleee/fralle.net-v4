@@ -1,19 +1,9 @@
 ---
-import EntryCard from "../components/EntryCard.astro";
-import Section from "../components/Section.astro";
-import { projects } from "../data/projects";
+import EntrySection from "../components/EntrySection.astro";
+import { projectToCardView, projects } from "../data/projects";
 
 const count = `${projects.length} builds`;
+const items = projects.map(projectToCardView);
 ---
 
-<Section id="projects" label="03 — Projects" title="Side quests" count={count}>
-  <ul class="entries">
-    {
-      projects.map((p) => (
-        <li>
-          <EntryCard {...p} />
-        </li>
-      ))
-    }
-  </ul>
-</Section>
+<EntrySection id="projects" label="03 — Projects" title="Side quests" count={count} items={items} />

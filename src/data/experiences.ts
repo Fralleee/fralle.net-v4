@@ -1,3 +1,5 @@
+import type { EntryCardView } from "../components/entry-card-view";
+
 export interface Experience {
   period: string;
   live?: boolean;
@@ -84,3 +86,15 @@ export const experiences: readonly Experience[] = [
     tags: ["JavaScript", "React", "Redux", "Webpack", "Microsoft Azure", "C#", "SQL"],
   },
 ];
+
+export function experienceToCardView(e: Experience): EntryCardView {
+  return {
+    period: { text: e.period, live: e.live },
+    logo: { src: e.logo, scale: e.logoScale },
+    title: { text: e.title, suffix: e.company },
+    url: e.url,
+    rows: [{ icon: "location", text: e.location }],
+    details: e.details,
+    tags: e.tags,
+  };
+}
