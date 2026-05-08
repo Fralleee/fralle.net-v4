@@ -50,13 +50,15 @@ Copy `.env.example` to `.env.local` and adjust:
 | Variable | Effect |
 | --- | --- |
 | `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
+| `PUBLIC_POSTHOG_KEY` | PostHog *project* key (`phc_…`) for client-side tracking. Inlined into the head snippet only when `import.meta.env.PROD` is true and both PostHog vars are set — scope to **Production** in Vercel so previews and `bun dev` stay quiet. |
+| `PUBLIC_POSTHOG_HOST` | PostHog ingest host for the client snippet, e.g. `https://eu.i.posthog.com`. |
 | `POSTHOG_HOST` | Origin used by the `/api/sparkline/[id]` proxy. e.g. `https://eu.posthog.com`. |
 | `POSTHOG_PROJECT_API_KEY` | Personal API key with `insight:read` scope. Server-only — never exposed to the client. |
 | `POSTHOG_PROJECT_ID` | Numeric PostHog project ID. |
 
 ## Architecture
 
-The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible`, fetches live data from `/api/sparkline/[id]` (a Vercel serverless route that proxies PostHog with `s-maxage=600, stale-while-revalidate=86400`), and renders the value + path. The rest of the page ships zero JS.
+The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible`, fetches live data from `/api/sparkline/[id]` (a Vercel serverless route that proxies PostHog with `s-maxage=600, stale-while-revalidate=86400`), and renders the value + path. The rest of the page ships zero JS apart from the inline PostHog snippet (production-only, gated on `import.meta.env.PROD` + the public PostHog keys) that records pageviews and autocaptured clicks.
 
 ```text
 src/
