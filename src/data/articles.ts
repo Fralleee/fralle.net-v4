@@ -5,6 +5,7 @@ interface ArticleLink {
 
 export interface Article {
   logo: string;
+  logoScale?: number;
   title: string;
   subtitle: string;
   url: string;

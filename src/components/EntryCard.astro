@@ -19,6 +19,7 @@ const links = "links" in props ? props.links : undefined;
 const sparkline = "sparkline" in props ? props.sparkline : undefined;
 const featured = "featured" in props && props.featured === true;
 const badge = "badge" in props ? props.badge : undefined;
+const logoScale = "logoScale" in props ? props.logoScale : undefined;
 ---
 
 <article class:list={["entry", featured && "entry-featured"]}>
@@ -26,7 +27,7 @@ const badge = "badge" in props ? props.badge : undefined;
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
     <div class="flex flex-col items-start gap-3 md:items-center md:gap-4">
       {period && <span class:list={["entry-period", live && "entry-period-live"]}>{period}</span>}
-      <div class="entry-logo">
+      <div class="entry-logo" style={logoScale ? `--logo-scale: ${logoScale}` : undefined}>
         <img src={logo} alt="" loading="lazy" decoding="async" />
       </div>
     </div>

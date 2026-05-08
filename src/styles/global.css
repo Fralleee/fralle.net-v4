@@ -217,6 +217,7 @@
     height: 100%;
     object-fit: contain;
     display: block;
+    transform: scale(var(--logo-scale, 1));
   }
   .entry-title {
     display: flex;

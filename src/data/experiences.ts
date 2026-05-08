@@ -2,6 +2,7 @@ export interface Experience {
   period: string;
   live?: boolean;
   logo: string;
+  logoScale?: number;
   title: string;
   company: string;
   url: string;
@@ -26,6 +27,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2023 — 2024",
     logo: "/logos/nira.svg",
+    logoScale: 1.1,
     title: "Senior Software Engineer",
     company: "Nira",
     url: "https://www.nira.com/",
@@ -37,6 +39,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2022 — 2023",
     logo: "/logos/stackoverflow.svg",
+    logoScale: 1.18,
     title: "Software Engineer",
     company: "Stack Overflow",
     url: "https://stackoverflow.com/",
@@ -48,6 +51,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2022 — 2022",
     logo: "/logos/yubico.svg",
+    logoScale: 1.1,
     title: "Senior Software Engineer",
     company: "Yubico",
     url: "https://www.yubico.com/",
