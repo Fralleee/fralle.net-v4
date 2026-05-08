@@ -46,6 +46,9 @@
 }
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
   html,
   body {
     overflow-x: clip;
