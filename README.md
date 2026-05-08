@@ -52,7 +52,7 @@ Copy `.env.example` to `.env.local` and adjust:
 
 ## Architecture
 
-The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Each section reads from a typed data file under `src/data/` and renders through the shared `<EntryCard>` primitive. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible` so the rest of the page ships zero JS.
+The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible` so the rest of the page ships zero JS.
 
 ```text
 src/
@@ -84,13 +84,15 @@ src/
 .
 ├── public/                # static assets (favicon, brand logos, project shots, articles)
 ├── src/                   # see Architecture above
-├── tests/
+├── tests/                 # data-shape contracts + DOM/RTL harness
 │   ├── register-dom.ts    # registers happy-dom globals (must preload first)
 │   ├── setup.ts           # afterEach cleanup() for @testing-library/react
 │   ├── experiences.test.ts
 │   ├── projects.test.ts
 │   ├── articles.test.ts
 │   └── availability.test.ts
+│                          # component tests are colocated, e.g.
+│                          # src/components/Sparkline.test.tsx
 ├── astro.config.mjs
 ├── bunfig.toml            # bun test preloads
 ├── tsconfig.json
