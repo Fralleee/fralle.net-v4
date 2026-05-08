@@ -448,3 +448,121 @@
     pointer-events: none;
   }
 }
+
+/* Print styles — turn the page into a clean monochrome one-pager
+ * suitable for PDF export. Hides chrome that doesn't carry across
+ * to paper (top nav, footer, hover affordances, the sparkline
+ * island, the "Latest" ribbon, link-button bar) and surfaces the
+ * underlying URL after every external link so a printed copy is
+ * still navigable.
+ */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  html {
+    scrollbar-gutter: auto;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+    -webkit-font-smoothing: auto;
+  }
+
+  body > nav,
+  footer,
+  .availability,
+  .featured-flag,
+  .sparkline-wrap,
+  .entry-arrow,
+  .entry-links,
+  ul[aria-label="Social media"] {
+    display: none;
+  }
+
+  /* Strip painted decorations so monochrome printers don't render gray blobs. */
+  .paint-mark,
+  .paint-rect,
+  .underline-marker {
+    background: transparent;
+    padding: 0;
+  }
+
+  .paint-mark::before,
+  .paint-rect::before,
+  .underline-marker::after,
+  .paint-wash::before {
+    display: none;
+  }
+
+  /* Header rail collapses to plain text; the wash + lede painting are gone. */
+  .paint-wash {
+    margin-bottom: 1rem;
+    padding: 0;
+    border-bottom: 1px solid #999;
+  }
+
+  /* Section heads stop being sticky; lay them above their body content. */
+  .section-head {
+    position: static;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Avoid breaking entries / paragraphs across pages. */
+  .entry,
+  .prose-block p,
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Reset card chrome to a hairline divider. */
+  .entry {
+    background: transparent;
+    border: none;
+    border-top: 0.5pt solid #999;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 12pt 0;
+    transform: none;
+  }
+
+  .entry-period,
+  .entry-period-live,
+  .entry-tags .tag {
+    background: transparent;
+    border: 0.5pt solid #999;
+    color: #000;
+  }
+
+  .entry-logo {
+    width: 32pt;
+    height: 32pt;
+  }
+
+  /* Surface the underlying URL after every external link. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #555;
+    word-break: break-all;
+  }
+
+  /* Don't decorate links with hover underlines on paper. */
+  .entry-title a {
+    background-image: none;
+  }
+
+  /* Headings should stick with the next block. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}

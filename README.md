@@ -114,14 +114,11 @@ src/
 
 ## Roadmap
 
-Built incrementally across PRs 1–14 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (now hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, and the production SEO / OpenGraph / favicon / 404 pass.
+Built incrementally across PRs 1–15 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, the production SEO / OpenGraph / favicon / 404 pass, and a print stylesheet for clean PDF export.
 
 ## Future enhancements
 
 These items were deferred during the original build (some explicitly per the plan, some called out in PR descriptions). Each is independent — pick any in any order.
 
-### PR 13 — Print stylesheet
-A `@media print` block that hides the `TopNav` / `Footer` / animations, tightens margins, and shows full URLs next to link text so the page exports as a clean one-pager PDF. Useful if Roland ever wants a printable resume that pulls from the same data files. **Effort: a couple of hours.**
-
-### PR 14 — Accent colour
+### PR 13 — Accent colour
 PRs 9–10 deliberately swapped the design source's rust-red accent for ink monochrome to stay inside the existing token palette. If a colour accent is wanted (link hover underline, arrow on focus, featured-card outline), a `--color-accent` token can be added and the existing `:hover` / `:focus-within` rules reach for it instead of `var(--color-ink)`. **Effort: one afternoon, mostly visual iteration.**
