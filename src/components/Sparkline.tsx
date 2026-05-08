@@ -19,32 +19,43 @@ interface FetchState {
 }
 
 const initialState: FetchState = { status: "loading", value: "—", data: [] };
+const errorState: FetchState = { status: "error", value: "—", data: [] };
+
+function isSparklineResponse(json: unknown): json is SparklineResponse {
+  if (typeof json !== "object" || json === null) return false;
+  const value = (json as { value?: unknown }).value;
+  const data = (json as { data?: unknown }).data;
+  return typeof value === "string" && Array.isArray(data) && data.every((n) => typeof n === "number");
+}
 
 export function Sparkline({ posthogId, label, width = 200, height = 32 }: SparklineProps) {
   const gradientId = useId();
   const [state, setState] = useState<FetchState>(initialState);
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
     setState(initialState);
 
-    fetch(`/api/sparkline/${encodeURIComponent(posthogId)}`)
-      .then((r) => (r.ok ? (r.json() as Promise<SparklineResponse>) : Promise.reject(r.status)))
+    fetch(`/api/sparkline/${encodeURIComponent(posthogId)}`, {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? (r.json() as Promise<unknown>) : Promise.reject(r.status)))
       .then((json) => {
-        if (cancelled) return;
-        if (Array.isArray(json.data) && json.data.length >= 2) {
-          setState({ status: "ready", value: json.value, data: json.data });
-        } else {
-          setState({ status: "error", value: "—", data: [] });
+        if (controller.signal.aborted) return;
+        if (!isSparklineResponse(json)) {
+          setState(errorState);
+          return;
         }
+        // A valid response with sparse data is still a "ready" state — we keep
+        // the legitimate count and let computePath skip the line.
+        setState({ status: "ready", value: json.value, data: json.data });
       })
       .catch(() => {
-        if (!cancelled) setState({ status: "error", value: "—", data: [] });
+        if (controller.signal.aborted) return;
+        setState(errorState);
       });
 
-    return () => {
-      cancelled = true;
-    };
+    return () => controller.abort();
   }, [posthogId]);
 
   const path = computePath(state.data, width, height);

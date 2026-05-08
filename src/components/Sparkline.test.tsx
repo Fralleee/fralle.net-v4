@@ -47,7 +47,7 @@ describe("Sparkline component", () => {
   }
 
   test("renders the loading placeholder before fetch resolves", () => {
-    const fetchMock = mock(() => new Promise<Response>(() => {})); // never resolves
+    const fetchMock = mock((_input: RequestInfo | URL, _init?: RequestInit) => new Promise<Response>(() => {})); // never resolves
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
     const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
@@ -55,7 +55,7 @@ describe("Sparkline component", () => {
     expect(wrap.dataset.status).toBe("loading");
     expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("—");
     expect(wrap.querySelector(".sparkline-lbl")?.textContent).toBe("Visitors");
-    expect(fetchMock).toHaveBeenCalledWith("/api/sparkline/abc123");
+    expect(fetchMock.mock.calls[0]?.[0]).toBe("/api/sparkline/abc123");
   });
 
   test("transitions to ready and renders the value after a successful fetch", async () => {
@@ -91,5 +91,60 @@ describe("Sparkline component", () => {
     });
     expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("—");
     expect(wrap.querySelectorAll("path")).toHaveLength(0);
+  });
+
+  test("renders the value when valid response carries fewer than 2 points", async () => {
+    const fetchMock = mock(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ value: "0", data: [] }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
+    const wrap = getWrap(container);
+
+    await waitFor(() => {
+      expect(wrap.dataset.status).toBe("ready");
+    });
+    expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("0");
+    // computePath returns null for <2 points, so the SVG renders empty.
+    expect(wrap.querySelectorAll("path")).toHaveLength(0);
+  });
+
+  test("rejects responses whose payload doesn't match SparklineResponse", async () => {
+    const fetchMock = mock(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ value: 12, data: "not-an-array" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
+    const wrap = getWrap(container);
+
+    await waitFor(() => {
+      expect(wrap.dataset.status).toBe("error");
+    });
+  });
+
+  test("aborts an in-flight fetch when the component unmounts", () => {
+    let signal: AbortSignal | undefined;
+    const fetchMock = mock((_url: string, init?: RequestInit) => {
+      signal = init?.signal ?? undefined;
+      return new Promise<Response>(() => {}); // never resolves
+    });
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    const { unmount } = render(<Sparkline posthogId="abc123" label="Visitors" />);
+    expect(signal?.aborted).toBe(false);
+    unmount();
+    expect(signal?.aborted).toBe(true);
   });
 });
