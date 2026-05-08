@@ -16,6 +16,7 @@ export const experiences: readonly Experience[] = [
     period: "2024 — Now",
     live: true,
     logo: "/logos/getharley.svg",
+    logoScale: 1.05,
     title: "Frontend Engineer",
     company: "GetHarley",
     url: "https://getharley.com/",
@@ -27,7 +28,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2023 — 2024",
     logo: "/logos/nira.svg",
-    logoScale: 1.1,
+    logoScale: 1,
     title: "Senior Software Engineer",
     company: "Nira",
     url: "https://www.nira.com/",
@@ -39,7 +40,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2022 — 2023",
     logo: "/logos/stackoverflow.svg",
-    logoScale: 1.18,
+    logoScale: 0.9,
     title: "Software Engineer",
     company: "Stack Overflow",
     url: "https://stackoverflow.com/",
@@ -63,6 +64,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2020 — 2022",
     logo: "/logos/gamesys.svg",
+    logoScale: 0.9,
     title: "Software Engineer",
     company: "Gamesys Group",
     url: "https://www.gamesysgroup.com/",
@@ -73,6 +75,7 @@ export const experiences: readonly Experience[] = [
   {
     period: "2015 — 2020",
     logo: "/logos/asitis.svg",
+    logoScale: 0.9,
     title: "Software Engineer",
     company: "Asitis",
     url: "https://www.aptic.net/",

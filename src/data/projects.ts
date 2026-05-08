@@ -48,7 +48,7 @@ export const projects: readonly Project[] = [
   },
   {
     logo: "/projects/copy-code-context.png",
-    logoScale: 1.12,
+    logoScale: 1,
     title: "Copy Context",
     subtitle: "VSCode Extension",
     kind: "extension",
@@ -70,6 +70,7 @@ export const projects: readonly Project[] = [
   },
   {
     logo: "/projects/shotkit.png",
+    logoScale: 1.12,
     title: "ShotKit",
     subtitle: "Web App",
     kind: "web",
@@ -83,6 +84,7 @@ export const projects: readonly Project[] = [
   },
   {
     logo: "/projects/quiz-game.png",
+    logoScale: 1.12,
     title: "Quiz Game",
     subtitle: "Web Game",
     kind: "game",
@@ -128,6 +130,7 @@ export const projects: readonly Project[] = [
   },
   {
     logo: "/projects/vakt.png",
+    logoScale: 1.12,
     title: "VAKT",
     subtitle: "Game · Unity",
     kind: "game",
