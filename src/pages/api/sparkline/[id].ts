@@ -28,8 +28,33 @@ interface PostHogInsightListItem {
   short_id: string;
 }
 
+interface PostHogInsightListResponse {
+  results?: PostHogInsightListItem[];
+}
+
 interface PostHogInsightDetail {
   result?: { data?: number[] }[];
+}
+
+function isInsightListResponse(v: unknown): v is PostHogInsightListResponse {
+  if (typeof v !== "object" || v === null) return false;
+  const results = (v as { results?: unknown }).results;
+  if (results === undefined) return true;
+  if (!Array.isArray(results)) return false;
+  return results.every(
+    (item) =>
+      typeof item === "object" &&
+      item !== null &&
+      typeof (item as { id?: unknown }).id === "number" &&
+      typeof (item as { short_id?: unknown }).short_id === "string",
+  );
+}
+
+function isInsightDetail(v: unknown): v is PostHogInsightDetail {
+  if (typeof v !== "object" || v === null) return false;
+  const result = (v as { result?: unknown }).result;
+  if (result === undefined) return true;
+  return Array.isArray(result) && result.every((r) => typeof r === "object" && r !== null);
 }
 
 function formatTotal(total: number): string {
@@ -85,9 +110,13 @@ export const GET: APIRoute = async ({ params, request }) => {
   try {
     const listUrl = new URL(`/api/projects/${projectId}/insights/`, host);
     listUrl.searchParams.set("short_id", id);
-    const list = (await fetchJSON(listUrl.toString(), apiKey)) as {
-      results?: PostHogInsightListItem[];
-    };
+    const list = await fetchJSON(listUrl.toString(), apiKey);
+    if (!isInsightListResponse(list)) {
+      return new Response(JSON.stringify({ error: "unexpected list shape" }), {
+        status: 502,
+        headers: errorCacheHeaders,
+      });
+    }
     const insightId = list.results?.find((i) => i.short_id === id)?.id;
     if (!insightId) {
       return new Response(JSON.stringify({ error: "insight not found" }), {
@@ -98,7 +127,13 @@ export const GET: APIRoute = async ({ params, request }) => {
 
     const detailUrl = new URL(`/api/projects/${projectId}/insights/${insightId}/`, host);
     detailUrl.searchParams.set("refresh", "force_blocking");
-    const detail = (await fetchJSON(detailUrl.toString(), apiKey)) as PostHogInsightDetail;
+    const detail = await fetchJSON(detailUrl.toString(), apiKey);
+    if (!isInsightDetail(detail)) {
+      return new Response(JSON.stringify({ error: "unexpected detail shape" }), {
+        status: 502,
+        headers: errorCacheHeaders,
+      });
+    }
     const data = detail.result?.[0]?.data;
     if (!Array.isArray(data) || !data.every((n) => typeof n === "number")) {
       return new Response(JSON.stringify({ error: "unexpected payload shape" }), {
