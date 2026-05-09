@@ -61,7 +61,7 @@ export function Sparkline({ posthogId, label, width = 200, height = 32 }: Sparkl
   const path = computePath(state.data, width, height);
 
   return (
-    <div className="sparkline-wrap" data-status={state.status}>
+    <div className="sparkline-wrap" data-status={state.status} aria-live="polite">
       <div className="sparkline-meta">
         <span className="sparkline-num">{state.value}</span>
         <span className="sparkline-lbl">{label}</span>
