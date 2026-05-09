@@ -7,7 +7,7 @@ type Props = EntryCardView;
 const { period, logo, title, url, rows = [], details, sparkline, tags, links, featured } = Astro.props;
 ---
 
-<article class:list={["entry", featured && "entry-featured"]}>
+<article class:list={["entry", featured && "entry-featured"]} data-tags={tags.join(" ")}>
   {featured && <span class="featured-flag">{featured.badge}</span>}
   <div class="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-[110px_1fr]">
     <div class="flex flex-col items-start gap-3 md:items-center md:gap-4">

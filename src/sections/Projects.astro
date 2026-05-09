@@ -1,9 +1,19 @@
 ---
 import EntrySection from "../components/EntrySection.astro";
+import ProjectFilter from "../components/ProjectFilter.astro";
 import { projectToCardView, projects } from "../data/projects";
 
 const count = `${projects.length} builds`;
 const items = projects.map(projectToCardView);
+
+const tagCount = new Map<string, number>();
+for (const p of projects) for (const t of p.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+const popularTags = [...tagCount.entries()]
+  .filter(([, n]) => n >= 2)
+  .sort((a, b) => b[1] - a[1])
+  .map(([t]) => t);
 ---
 
-<EntrySection id="projects" label="03 — Projects" title="Side quests" count={count} items={items} />
+<EntrySection id="projects" label="03 — Projects" title="Side quests" count={count} items={items}>
+  <ProjectFilter slot="before-list" tags={popularTags} />
+</EntrySection>

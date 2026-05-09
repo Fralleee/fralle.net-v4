@@ -15,6 +15,7 @@ const { id, label, title, count, items } = Astro.props;
 ---
 
 <Section id={id} label={label} title={title} count={count}>
+  <slot name="before-list" />
   <ul class="entries">
     {
       items.map((item) => (

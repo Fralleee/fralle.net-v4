@@ -339,6 +339,34 @@
     box-shadow: 1.5px 1.5px 0 0 rgb(var(--color-ink-rgb) / 0.85);
   }
 
+  .project-filter .chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(var(--color-ink-rgb) / 0.75);
+    background: var(--color-paper);
+    border: 1px solid rgb(var(--color-ink-rgb) / 0.12);
+    border-radius: 999px;
+    padding: 4px 11px;
+    cursor: pointer;
+    transition:
+      background 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .project-filter .chip:hover {
+    background: var(--color-cream);
+    border-color: rgb(var(--color-ink-rgb) / 0.2);
+  }
+  .project-filter .chip.active {
+    background: var(--color-ink);
+    color: var(--color-canvas);
+    border-color: var(--color-ink);
+  }
+
   .entry-links {
     list-style: none;
     margin: 14px 0 0;

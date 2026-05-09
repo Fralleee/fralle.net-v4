@@ -1,0 +1,33 @@
+---
+interface Props {
+  tags: readonly string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="project-filter mb-5 flex flex-wrap items-center gap-2" aria-label="Filter projects by tag">
+  <button type="button" class="chip active" data-tag="">All</button>
+  {tags.map((tag) => <button type="button" class="chip" data-tag={tag}>{tag}</button>)}
+</div>
+
+<script>
+  const list = document.querySelector<HTMLUListElement>("#projects ul.entries");
+  const chips = document.querySelectorAll<HTMLButtonElement>(".project-filter .chip");
+
+  function applyFilter(tag: string) {
+    chips.forEach((c) => c.classList.toggle("active", (c.dataset.tag ?? "") === tag));
+    list?.querySelectorAll<HTMLLIElement>("li").forEach((li) => {
+      const liTags = li.querySelector("article")?.dataset.tags?.split(" ") ?? [];
+      li.style.display = !tag || liTags.includes(tag) ? "" : "none";
+    });
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const tag = chip.dataset.tag ?? "";
+      const isActive = chip.classList.contains("active");
+      applyFilter(isActive && tag ? "" : tag);
+    });
+  });
+</script>
