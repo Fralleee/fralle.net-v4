@@ -78,6 +78,12 @@ const structuredData = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
   </head>
   <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="absolute left-0 top-2 z-[60] -translate-x-full bg-amber-300 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-fg-1 no-underline transition-transform duration-150 focus-visible:translate-x-2 focus-visible:text-fg-1"
+    >
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>
