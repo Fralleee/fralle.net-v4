@@ -31,7 +31,6 @@ const schemas = [
     description: a.details,
     author,
     keywords: a.tags.join(", "),
-    datePublished: a.subtitle.match(/\d{4}/)?.[0],
     publisher: { "@type": "Organization", name: "Medium" },
   })),
 ];
