@@ -24,6 +24,7 @@ const enableTracking =
 
 const personSchema = {
   "@type": "Person",
+  "@id": new URL("#person", Astro.site).href,
   name: "Roland Chelwing",
   jobTitle: "Fullstack Software Engineer",
   url: Astro.site?.href,

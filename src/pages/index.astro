@@ -11,7 +11,7 @@ import Articles from "../sections/Articles.astro";
 import Experience from "../sections/Experience.astro";
 import Projects from "../sections/Projects.astro";
 
-const author = { "@type": "Person", name: "Roland Chelwing" } as const;
+const author = { "@id": new URL("#person", Astro.site).href };
 
 const schemas = [
   ...projects.map((p) => ({
