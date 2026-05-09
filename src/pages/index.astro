@@ -3,14 +3,41 @@ import Footer from "../components/Footer.astro";
 import HeaderRail from "../components/HeaderRail.astro";
 import Shell from "../components/Shell.astro";
 import TopNav from "../components/TopNav.astro";
+import { articles } from "../data/articles";
+import { projects } from "../data/projects";
 import Base from "../layouts/Base.astro";
 import About from "../sections/About.astro";
 import Articles from "../sections/Articles.astro";
 import Experience from "../sections/Experience.astro";
 import Projects from "../sections/Projects.astro";
+
+const author = { "@type": "Person", name: "Roland Chelwing" } as const;
+
+const schemas = [
+  ...projects.map((p) => ({
+    "@type": "CreativeWork",
+    name: p.title,
+    url: p.url,
+    image: new URL(p.logo, Astro.site).href,
+    description: p.details,
+    author,
+    keywords: p.tags.join(", "),
+  })),
+  ...articles.map((a) => ({
+    "@type": "Article",
+    headline: a.title,
+    url: a.url,
+    image: new URL(a.logo, Astro.site).href,
+    description: a.details,
+    author,
+    keywords: a.tags.join(", "),
+    datePublished: a.subtitle.match(/\d{4}/)?.[0],
+    publisher: { "@type": "Organization", name: "Medium" },
+  })),
+];
 ---
 
-<Base>
+<Base schemas={schemas}>
   <TopNav />
   <Shell>
     <main>

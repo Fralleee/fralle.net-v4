@@ -5,12 +5,14 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  schemas?: ReadonlyArray<Record<string, unknown>>;
 }
 
 const {
   title = "Roland Chelwing — Fullstack Software Engineer",
   description = "Roland Chelwing — fullstack software engineer based in Sweden.",
   noindex = false,
+  schemas = [],
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -21,7 +23,6 @@ const enableTracking =
   Boolean(import.meta.env.PUBLIC_POSTHOG_HOST);
 
 const personSchema = {
-  "@context": "https://schema.org",
   "@type": "Person",
   name: "Roland Chelwing",
   jobTitle: "Fullstack Software Engineer",
@@ -32,6 +33,11 @@ const personSchema = {
     "https://medium.com/@fralle/",
     "https://dev.to/fralleee",
   ],
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [personSchema, ...schemas],
 };
 ---
 
@@ -68,7 +74,7 @@ const personSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL("/og.png", Astro.site).href} />
 
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
   </head>
   <body class="flex min-h-screen flex-col">
     <slot />
