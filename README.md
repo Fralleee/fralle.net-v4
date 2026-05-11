@@ -1,6 +1,35 @@
+<div align="center">
+
+<img width="150" height="150" alt="image" src="https://github.com/user-attachments/assets/0d210764-855d-4246-b90e-755cf256fa9f" />
+
+
 # fralle.net
 
-Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.net).
+Personal portfolio for **Roland Chelwing** — fullstack software engineer based in Sweden.
+
+[![Astro](https://img.shields.io/badge/Astro-6-BC52EE?logo=astro&logoColor=white)](https://astro.build)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind-v4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Bun](https://img.shields.io/badge/Bun-1.3-000000?logo=bun&logoColor=white)](https://bun.sh)
+[![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?logo=vercel&logoColor=white)](https://vercel.com)
+
+[**Live site**](https://fralle.net)
+
+</div>
+
+---
+
+A single-page, content-driven portfolio that ships ~zero JavaScript by default. One small React island fetches live PostHog metrics for the project sparklines; everything else is static HTML rendered at build time. Lighthouse 100, out of the box.
+
+## Highlights
+
+- **Astro 6 static output** with selectively hydrated React islands (`client:visible`).
+- **Tailwind v4** via `@tailwindcss/vite` — CSS-first config, no PostCSS pipeline.
+- **Live sparklines** from PostHog, proxied through a Vercel serverless route with edge caching (`s-maxage=600, stale-while-revalidate=86400`).
+- **Env-driven availability toggle** — flip the "Open to new roles" badge by changing one Vercel env var. No code change, no third-party feature flag service.
+- **Generated assets** — favicon set and OpenGraph image rebuilt from `src/assets/icon.svg` on every `dev`/`build`.
+- **Strict tooling**: Biome (lint + format), Knip (unused exports/deps), Lefthook git hooks, `bun test` + `happy-dom` + Testing Library.
 
 ## Stack
 
@@ -12,108 +41,10 @@ Personal portfolio for Roland Chelwing. Replaces [fralle.net-v3](https://fralle.
 | Package manager + runtime | [Bun](https://bun.sh) |
 | Lint + format | [Biome](https://biomejs.dev) |
 | Unused deps / exports | [Knip](https://knip.dev) |
-| Git hooks | [Lefthook](https://lefthook.dev) (pre-commit Biome+typecheck, pre-push Knip) |
+| Git hooks | [Lefthook](https://lefthook.dev) (pre-commit: Biome + typecheck · pre-push: Knip) |
 | Test runner | `bun test` + `happy-dom` + Testing Library |
 | CI | GitHub Actions (`bun run ci` on PRs and `main`) |
 | Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel` adapter) |
 
-### Why Astro
-
-The site is one route, mostly static (about / experience / projects / articles), with one small interactive island (the project sparklines). Astro ships zero JS by default and hydrates only the React components that need it — Lighthouse 100 out of the box.
-
-### Why an env var (not a feature flag service) for availability
-
-The "Open to new roles" toggle is a single boolean that flips a few times a year. A 30-second redeploy on a Vercel env var change is cheaper than adding a third-party SDK, runtime fetch, or first-paint flicker.
-
-## Commands
-
-```sh
-bun install           # install dependencies (also wires lefthook git hooks)
-bun dev               # start local dev server (http://localhost:4321)
-bun run build         # build production output to ./dist + .vercel/output
-bun run preview       # preview the built site locally
-bun run lint          # biome check (lint + format check, no writes)
-bun run format        # biome check --write (lint + format with autofix)
-bun run typecheck     # astro check (.astro + .ts + .tsx)
-bun run knip          # find unused files / deps / exports
-bun run test          # bun test (happy-dom + Testing Library)
-bun run assets        # regenerate the favicon set + OG image (runs automatically before dev/build)
-bun run ci            # lint + typecheck + knip + test + build (full local CI)
-```
-
-Pre-commit (Lefthook) runs Biome + `astro check` on staged files. Pre-push runs Knip.
-
-## Environment
-
-Copy `.env.example` to `.env.local` and adjust:
-
-| Variable | Effect |
-| --- | --- |
-| `PUBLIC_AVAILABLE_FOR_HIRE` | Only the literal value `true` turns on the "Open to new roles" badge, the TopNav pulse + status text, and the About section's job-seeking copy. Any other value (or unset) renders the not-currently-looking variant. |
-| `PUBLIC_POSTHOG_KEY` | PostHog *project* key (`phc_…`) for client-side tracking. Inlined into the head snippet only when `import.meta.env.PROD` is true and both PostHog vars are set — scope to **Production** in Vercel so previews and `bun dev` stay quiet. |
-| `PUBLIC_POSTHOG_HOST` | PostHog ingest host for the client snippet, e.g. `https://eu.i.posthog.com`. |
-| `POSTHOG_HOST` | Origin used by the `/api/sparkline/[id]` proxy. e.g. `https://eu.posthog.com`. |
-| `POSTHOG_PROJECT_API_KEY` | Personal API key with `insight:read` scope. Server-only — never exposed to the client. |
-| `POSTHOG_PROJECT_ID` | Numeric PostHog project ID. |
-
-## Architecture
-
-The page is one route (`src/pages/index.astro`) that composes a header rail and four content sections. Experience / Projects / Articles read from typed data files under `src/data/` and render through the shared `<EntryCard>` primitive; About is hand-written prose that only reads the availability flag. The Sparkline next to two project cards is the only React island — it hydrates with `client:visible`, fetches live data from `/api/sparkline/[id]` (a Vercel serverless route that proxies PostHog with `s-maxage=600, stale-while-revalidate=86400`), and renders the value + path. The rest of the page ships zero JS apart from the inline PostHog snippet (production-only, gated on `import.meta.env.PROD` + the public PostHog keys) that records pageviews and autocaptured clicks.
-
-```text
-src/
-├── data/
-│   ├── availability.ts    # parseAvailable(env) -> boolean (build-time)
-│   ├── experiences.ts     # 6 records: period, logo, title, company, …
-│   ├── projects.ts        # 7 records: subtitle, kind, links, optional sparkline
-│   └── articles.ts        # 3 Medium posts: subtitle, links
-├── sections/
-│   ├── About.astro        # prose, paint-rect highlights, contact block
-│   ├── Experience.astro
-│   ├── Projects.astro
-│   └── Articles.astro
-└── components/
-    ├── EntryCard.astro    # union props: Experience | Project | Article
-    ├── Sparkline.tsx      # React island, pure SVG
-    ├── HeaderRail.astro   # role / name / lede / availability badge / socials
-    ├── TopNav.astro       # sticky brand bar + status row
-    ├── AvailabilityBadge.astro
-    ├── Section.astro      # 2-column grid with sticky head on md+
-    ├── Shell.astro        # max-width container
-    ├── Footer.astro
-    └── Socials.astro
-```
-
-## Project layout
-
-```text
-.
-├── public/                # static assets (brand logos, project shots, articles, robots, manifest)
-│                          #   favicon set + og.png are generated by scripts/ (gitignored)
-├── src/                   # see Architecture above
-│   └── assets/icon.svg    # source-of-truth for the favicon set
-├── scripts/
-│   ├── generate-icons.ts  # icon.svg → favicon.ico + apple/android PNGs (resvg-js + png-to-ico)
-│   └── generate-og.tsx    # JSX → 1200×630 og.png (@vercel/og + Inter)
-├── tests/                 # data-shape contracts + DOM/RTL harness
-│   ├── register-dom.ts    # registers happy-dom globals (must preload first)
-│   ├── setup.ts           # afterEach cleanup() for @testing-library/react
-│   ├── experiences.test.ts
-│   ├── projects.test.ts
-│   ├── articles.test.ts
-│   └── availability.test.ts
-│                          # component tests are colocated, e.g.
-│                          # src/components/Sparkline.test.tsx
-├── astro.config.mjs
-├── bunfig.toml            # bun test preloads
-├── tsconfig.json
-└── package.json
-```
-
-## Deploy
-
-`main` auto-deploys to Vercel via the `@astrojs/vercel` adapter. To flip the availability toggle without a code change: Vercel dashboard → Project → Settings → Environment Variables → set `PUBLIC_AVAILABLE_FOR_HIRE` to `true` (or any other value to disable), redeploy. The change takes ~30 seconds end-to-end.
-
-## Roadmap
-
-Built incrementally across PRs 1–16 — see git history for the per-step rationale. The shipped scope: framework bootstrap, tooling, tests, CI, design tokens, layout primitives, header rail, the four content sections, the Sparkline island (hydrated with live PostHog data via an edge-cached API route), the env-driven availability toggle, the production SEO / OpenGraph / favicon / 404 pass, a print stylesheet for clean PDF export, and a rust-orange accent on hover/focus.
+> [!NOTE]
+> The site is one route, mostly static (about / experience / projects / articles), with one small interactive island (the project sparklines). Astro ships zero JS by default and hydrates only the React components that need it.
