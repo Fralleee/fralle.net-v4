@@ -1,6 +1,7 @@
 <div align="center">
 
-<img src="public/icon.svg" alt="fralle.net" width="96" height="96" />
+<img width="150" height="150" alt="image" src="https://github.com/user-attachments/assets/0d210764-855d-4246-b90e-755cf256fa9f" />
+
 
 # fralle.net
 
