@@ -24,7 +24,7 @@ export const experiences: readonly Experience[] = [
     url: "https://getharley.com/",
     location: "London, UK (Remote)",
     details:
-      "Co-built the AI-driven consultation transcription product now used by ~15 design-partner clinics for around 80% of their consultations.\n\nLed a catalog-variants migration that touched the data model, AI pipeline, and patient-facing UI.\n\nAlso built and maintain the patient recall and follow-up Lambda systems in production.",
+      "Co-built the AI-driven consultation transcription product now used by ~15 design-partner clinics for around 80% of their consultations.\n\nLed a catalog-variants migration that touched the data model, AI pipeline, and patient-facing UI.\n\nBuilt and now maintain the patient recall and follow-up Lambda systems in production.",
     tags: ["TypeScript", "React", "Next.js", "AWS Amplify", "AWS Lambda", "DynamoDB", "Bedrock", "PostHog"],
   },
   {
@@ -36,7 +36,7 @@ export const experiences: readonly Experience[] = [
     url: "https://www.nira.com/",
     location: "California, US (Remote)",
     details:
-      "Architected and solo-built DSA, a lightweight free-tier acquisition product, bootstrapping the monorepo, auth, CI/CD, storage, and UI surface.\n\nAlso replaced manual customer onboarding with a fully automated self-service flow backed by a cloud-document ingest cron worker.",
+      "Architected and solo-built DSA, a lightweight free-tier acquisition product, bootstrapping the monorepo, auth, CI/CD, storage, and UI surface.\n\nReplaced manual customer onboarding with a fully automated self-service flow backed by a cloud-document ingest cron worker.",
     tags: ["TypeScript", "React", "Next.js", "tRPC", "GraphQL", "Elasticsearch", "MongoDB", "AWS", "PostgreSQL"],
   },
   {
@@ -48,7 +48,7 @@ export const experiences: readonly Experience[] = [
     url: "https://stackoverflow.com/",
     location: "New York, US (Remote)",
     details:
-      "Led the ed-tech course ad-serving product (Udemy and Pluralsight affiliate partnerships) end-to-end, covering catalog ingest, validation, ranking, and CTR-driven experimentation on Stack Overflow question pages.\n\nAlso built a .NET catalog validation pipeline that verified course titles, categories, and pricing against live partner pages before serving them as ads.",
+      "Led the ed-tech course ad-serving product (Udemy and Pluralsight affiliate partnerships) end-to-end, covering catalog ingest, validation, ranking, and CTR-driven experimentation on Stack Overflow question pages.\n\nBuilt a .NET catalog validation pipeline that verified course titles, categories, and pricing against live partner pages before serving them as ads.",
     tags: ["TypeScript", "Webpack", "C#", ".NET", "SQL", "Redis", "Elasticsearch", "Google Ads"],
   },
   {
