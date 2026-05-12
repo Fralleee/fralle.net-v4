@@ -6,12 +6,11 @@ import { available } from "../data/availability";
 <Section id="about" label="01 — About" title="About">
   <div class="prose-block text-fg-1">
     <p>
-      I started programming at the age of seven, creating text-based RPGs
-      with my older brother on an ancient PASCAL computer. Computers and technology have always fascinated me,
-      but it wasn’t until many years later that I turned my passion into a profession.
+      I’m a frontend engineer from Sweden who’s spent the last decade moving between product teams
+      in fintech, e-commerce, developer tools and now healthcare. I care about type, motion and the small details that turn a screen into a place.
     </p>
     <p>
-      Over the years, I have had the opportunity to work with a diverse range of organizations, including a <a
+      Along the way I’ve worked with a <a
         href="https://www.aptic.net/"
         rel="noopener noreferrer"
         target="_blank">fintech company</a
@@ -24,23 +23,18 @@ import { available } from "../data/availability";
         >one of the world’s most visited websites</a
       >.
     </p>
-    {
-      available && (
-        <p>
-          Currently <span class="paint-rect">seeking new opportunities</span>, I am passionate
-          about software development and am eager to bring my expertise to a new team.
-        </p>
-      )
-    }
+    <p>
+      I work mostly in TypeScript, React and Next.js, but I’m happiest when the boundary between
+      design and engineering gets fuzzy.
+    </p>
     {
       available ? (
         <p>
-          Please feel free to contact me on{" "}
+          Right now I’m <span class="paint-rect">open to new roles</span>. Feel free to say hi on{" "}
           <a href="https://www.linkedin.com/in/fralle/" rel="noopener noreferrer" target="_blank">
             LinkedIn
           </a>{" "}
-          or via <a href="mailto:roland.chelwing@gmail.com">email</a> to discuss potential
-          collaborations or job openings.
+          or via <a href="mailto:roland.chelwing@gmail.com">email</a>.
         </p>
       ) : (
         <p>
