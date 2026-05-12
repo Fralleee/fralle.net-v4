@@ -74,7 +74,7 @@ const { period, logo, title, url, rows = [], details, sparkline, tags, links, fe
           </div>
         ))
       }
-      <p class="entry-details">{details}</p>
+      {details.split("\n\n").map((para) => <p class="entry-details">{para}</p>)}
       {
         sparkline && (
           <Sparkline posthogId={sparkline.posthogId} label={sparkline.label} client:visible />

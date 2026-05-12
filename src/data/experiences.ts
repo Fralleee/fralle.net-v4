@@ -24,8 +24,8 @@ export const experiences: readonly Experience[] = [
     url: "https://getharley.com/",
     location: "London, UK (Remote)",
     details:
-      "Contributing to a telehealth platform that connects patients with expert clinicians, focusing on enhancing user experience, implementing new features and designs.",
-    tags: ["TypeScript", "React", "Next.js", "AWS"],
+      "Co-built the AI-driven consultation transcription product now used by ~15 design-partner clinics for around 80% of their consultations.\n\nLed a catalog-variants migration that touched the data model, AI pipeline, and patient-facing UI.\n\nAlso built and maintain the patient recall and follow-up Lambda systems in production.",
+    tags: ["TypeScript", "React", "Next.js", "AWS Amplify", "AWS Lambda", "DynamoDB", "Bedrock", "PostHog"],
   },
   {
     period: "2023 — 2024",
@@ -36,8 +36,8 @@ export const experiences: readonly Experience[] = [
     url: "https://www.nira.com/",
     location: "California, US (Remote)",
     details:
-      "Helped companies take control over their documents, enhancing the transparency of both internal and external access to company records.",
-    tags: ["TypeScript", "React", "Next.js", "tRPC", "GraphQL", "Elasticsearch", "AWS"],
+      "Architected and solo-built DSA, a lightweight free-tier acquisition product, bootstrapping the monorepo, auth, CI/CD, storage, and UI surface.\n\nAlso replaced manual customer onboarding with a fully automated self-service flow backed by a cloud-document ingest cron worker.",
+    tags: ["TypeScript", "React", "Next.js", "tRPC", "GraphQL", "Elasticsearch", "MongoDB", "AWS", "PostgreSQL"],
   },
   {
     period: "2022 — 2023",
@@ -48,8 +48,8 @@ export const experiences: readonly Experience[] = [
     url: "https://stackoverflow.com/",
     location: "New York, US (Remote)",
     details:
-      "Part of the Awareness team, primarily involved in optimizing ads and metrics to improve click-through rates, automation, and impressions.",
-    tags: ["TypeScript", "Webpack", "C#", "SQL", "Redis", "Elasticsearch", "Google Ads"],
+      "Led the ed-tech course ad-serving product (Udemy and Pluralsight affiliate partnerships) end-to-end, covering catalog ingest, validation, ranking, and CTR-driven experimentation on Stack Overflow question pages.\n\nAlso built a .NET catalog validation pipeline that verified course titles, categories, and pricing against live partner pages before serving them as ads.",
+    tags: ["TypeScript", "Webpack", "C#", ".NET", "SQL", "Redis", "Elasticsearch", "Google Ads"],
   },
   {
     period: "2022 — 2022",
