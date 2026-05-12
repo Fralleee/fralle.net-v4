@@ -24,7 +24,7 @@ export const experiences: readonly Experience[] = [
     url: "https://getharley.com/",
     location: "London, UK (Remote)",
     details:
-      "Co-built the AI-driven consultation transcription product now used by ~15 design-partner clinics for around 80% of their consultations.\n\nLed a catalog-variants migration that touched the data model, AI pipeline, and patient-facing UI.\n\nBuilt and maintain the patient recall and follow-up Lambda systems in production.",
+      "Co-built the AI-driven consultation transcription product now used by ~15 design-partner clinics for around 80% of their consultations.\n\nLed a catalog-variants migration that touched the data model, AI pipeline, and patient-facing UI.\n\nBuilt and now maintain the patient recall and follow-up Lambda systems in production.",
     tags: ["TypeScript", "React", "Next.js", "AWS Amplify", "AWS Lambda", "DynamoDB", "Bedrock", "PostHog"],
   },
   {
