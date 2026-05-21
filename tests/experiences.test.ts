@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { experiences } from "../src/data/experiences";
+import { experiences, getCareerYears } from "../src/data/experiences";
 
 describe("experiences data", () => {
   test("contains all six roles in reverse-chronological order", () => {
@@ -25,5 +25,12 @@ describe("experiences data", () => {
       expect(e.tags.length).toBeGreaterThan(0);
       expect(e.logo).toMatch(/^\/logos\/[a-z0-9-]+\.svg$/);
     }
+  });
+});
+
+describe("getCareerYears", () => {
+  test("returns years since the earliest experience period", () => {
+    const earliest = Math.min(...experiences.map((e) => Number.parseInt(e.period, 10)).filter(Number.isFinite));
+    expect(getCareerYears()).toBe(new Date().getFullYear() - earliest);
   });
 });
