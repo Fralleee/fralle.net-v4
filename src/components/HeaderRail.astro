@@ -1,6 +1,9 @@
 ---
 import AvailabilityBadge from "./AvailabilityBadge.astro";
 import Socials from "./Socials.astro";
+import { getCareerYears } from "../data/experiences";
+
+const years = getCareerYears();
 ---
 
 <header
@@ -10,7 +13,7 @@ import Socials from "./Socials.astro";
     <p
       class="m-0 mb-5 inline-flex items-center gap-2.5 font-mono text-sm font-medium uppercase tracking-[0.02em] text-ink/70 before:block before:h-px before:w-6 before:bg-ink/40 before:content-['']"
     >
-      Fullstack Software Engineer
+      Fullstack Software Engineer · {years}+ Years
     </p>
 
     <h1 class="m-0 mb-[18px] text-balance text-[40px] font-bold leading-none tracking-[-0.025em] text-fg-1 md:text-[80px]">

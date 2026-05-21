@@ -5,6 +5,24 @@ import { Sparkline } from "./Sparkline";
 type Props = EntryCardView;
 
 const { period, logo, title, url, rows = [], details, sparkline, tags, links, featured } = Astro.props;
+
+function parseInlineBold(text: string): Array<{ text: string; bold: boolean }> {
+  const segments: Array<{ text: string; bold: boolean }> = [];
+  const regex = /\*\*(.+?)\*\*/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ text: text.slice(lastIndex, match.index), bold: false });
+    }
+    segments.push({ text: match[1] ?? "", bold: true });
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < text.length) {
+    segments.push({ text: text.slice(lastIndex), bold: false });
+  }
+  return segments;
+}
 ---
 
 <article class:list={["entry", featured && "entry-featured"]}>
@@ -74,7 +92,16 @@ const { period, logo, title, url, rows = [], details, sparkline, tags, links, fe
           </div>
         ))
       }
-      {details.split("\n\n").filter((para) => para.trim()).map((para) => <p class="entry-details">{para}</p>)}
+      {
+        details
+          .split("\n\n")
+          .filter((para) => para.trim())
+          .map((para) => (
+            <p class="entry-details">
+              {parseInlineBold(para).map((seg) => (seg.bold ? <strong>{seg.text}</strong> : seg.text))}
+            </p>
+          ))
+      }
       {
         sparkline && (
           <Sparkline posthogId={sparkline.posthogId} label={sparkline.label} client:visible />

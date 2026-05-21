@@ -1,18 +1,15 @@
 ---
 import EntrySection from "../components/EntrySection.astro";
-import { experienceToCardView, experiences } from "../data/experiences";
+import { experienceToCardView, experiences, getCareerYears } from "../data/experiences";
 
-const startYears = experiences.map((e) => Number.parseInt(e.period, 10)).filter(Number.isFinite);
-const earliest = Math.min(...startYears);
-const years = new Date().getFullYear() - earliest;
-const count = `${experiences.length} roles · ${years}+ years`;
+const count = `${experiences.length} roles · ${getCareerYears()}+ years`;
 const items = experiences.map(experienceToCardView);
 ---
 
 <EntrySection
   id="experience"
   label="02 — Experience"
-  title="Where I've shipped"
+  title="Track record"
   count={count}
   items={items}
 />

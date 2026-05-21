@@ -295,6 +295,10 @@
     line-height: 1.55;
     color: rgb(var(--color-ink-rgb) / 0.78);
   }
+  .entry-details strong {
+    color: rgb(var(--color-ink-rgb));
+    font-weight: 600;
+  }
   .entry-tags {
     list-style: none;
     margin: 0;
