@@ -45,6 +45,26 @@ describe("Sparkline component", () => {
     return wrap;
   }
 
+  function mockJsonOk(body: unknown) {
+    return mock(() =>
+      Promise.resolve(
+        new Response(JSON.stringify(body), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
+  }
+
+  async function renderAndWaitFor(status: "ready" | "error") {
+    const { container, unmount } = render(<Sparkline posthogId="abc123" label="Visitors" />);
+    const wrap = getWrap(container);
+    await waitFor(() => {
+      expect(wrap.dataset.status).toBe(status);
+    });
+    return { container, wrap, unmount };
+  }
+
   test("renders the loading placeholder before fetch resolves", () => {
     const fetchMock = mock((_input: RequestInfo | URL, _init?: RequestInit) => new Promise<Response>(() => {}));
     globalThis.fetch = fetchMock as unknown as typeof fetch;
@@ -58,79 +78,32 @@ describe("Sparkline component", () => {
   });
 
   test("transitions to ready and renders the value after a successful fetch", async () => {
-    const fetchMock = mock(() =>
-      Promise.resolve(
-        new Response(JSON.stringify({ value: "1.2k", data: [1, 2, 3, 4, 5] }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }),
-      ),
-    );
-    globalThis.fetch = fetchMock as unknown as typeof fetch;
-
-    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
-    const wrap = getWrap(container);
-
-    await waitFor(() => {
-      expect(wrap.dataset.status).toBe("ready");
-    });
+    globalThis.fetch = mockJsonOk({ value: "1.2k", data: [1, 2, 3, 4, 5] }) as unknown as typeof fetch;
+    const { wrap } = await renderAndWaitFor("ready");
     expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("1.2k");
     expect(wrap.querySelectorAll("path")).toHaveLength(2);
   });
 
   test("transitions to error when the fetch fails", async () => {
-    const fetchMock = mock(() => Promise.resolve(new Response("upstream down", { status: 502 })));
-    globalThis.fetch = fetchMock as unknown as typeof fetch;
-
-    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
-    const wrap = getWrap(container);
-
-    await waitFor(() => {
-      expect(wrap.dataset.status).toBe("error");
-    });
+    globalThis.fetch = mock(() =>
+      Promise.resolve(new Response("upstream down", { status: 502 })),
+    ) as unknown as typeof fetch;
+    const { wrap } = await renderAndWaitFor("error");
     expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("—");
     expect(wrap.querySelectorAll("path")).toHaveLength(0);
   });
 
   test("renders the value when valid response carries fewer than 2 points", async () => {
-    const fetchMock = mock(() =>
-      Promise.resolve(
-        new Response(JSON.stringify({ value: "0", data: [] }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }),
-      ),
-    );
-    globalThis.fetch = fetchMock as unknown as typeof fetch;
-
-    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
-    const wrap = getWrap(container);
-
-    await waitFor(() => {
-      expect(wrap.dataset.status).toBe("ready");
-    });
+    globalThis.fetch = mockJsonOk({ value: "0", data: [] }) as unknown as typeof fetch;
+    const { wrap } = await renderAndWaitFor("ready");
     expect(wrap.querySelector(".sparkline-num")?.textContent).toBe("0");
     // computePath returns null for <2 points, so the SVG renders empty.
     expect(wrap.querySelectorAll("path")).toHaveLength(0);
   });
 
   test("rejects responses whose payload doesn't match SparklineResponse", async () => {
-    const fetchMock = mock(() =>
-      Promise.resolve(
-        new Response(JSON.stringify({ value: 12, data: "not-an-array" }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }),
-      ),
-    );
-    globalThis.fetch = fetchMock as unknown as typeof fetch;
-
-    const { container } = render(<Sparkline posthogId="abc123" label="Visitors" />);
-    const wrap = getWrap(container);
-
-    await waitFor(() => {
-      expect(wrap.dataset.status).toBe("error");
-    });
+    globalThis.fetch = mockJsonOk({ value: 12, data: "not-an-array" }) as unknown as typeof fetch;
+    await renderAndWaitFor("error");
   });
 
   test("aborts an in-flight fetch when the component unmounts", () => {

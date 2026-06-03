@@ -79,6 +79,51 @@ async function fetchJSON(url: string, apiKey: string): Promise<unknown> {
   }
 }
 
+class UpstreamError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
+    super(message);
+  }
+}
+
+async function resolveInsightSeries(
+  host: string,
+  projectId: string,
+  apiKey: string,
+  shortId: string,
+): Promise<{ total: number; data: number[] }> {
+  const listUrl = new URL(`/api/projects/${projectId}/insights/`, host);
+  listUrl.searchParams.set("short_id", shortId);
+  const list = await fetchJSON(listUrl.toString(), apiKey);
+  if (!isInsightListResponse(list)) {
+    throw new UpstreamError("unexpected list shape", 502);
+  }
+  const insightId = list.results.find((i) => i.short_id === shortId)?.id;
+  if (!insightId) {
+    throw new UpstreamError("insight not found", 404);
+  }
+
+  const detailUrl = new URL(`/api/projects/${projectId}/insights/${insightId}/`, host);
+  detailUrl.searchParams.set("refresh", "force_blocking");
+  const detail = await fetchJSON(detailUrl.toString(), apiKey);
+  if (!isInsightDetail(detail)) {
+    throw new UpstreamError("unexpected detail shape", 502);
+  }
+  const data = detail.result[0]?.data;
+  if (!Array.isArray(data) || !data.every((n) => typeof n === "number")) {
+    throw new UpstreamError("unexpected payload shape", 502);
+  }
+  return { total: data.reduce((a, b) => a + b, 0), data };
+}
+
+function errorResponse(message: string, status: number): Response {
+  const headers = status === 404 ? rejectCacheHeaders : errorCacheHeaders;
+  return new Response(JSON.stringify({ error: message }), { status, headers });
+}
+
+// fallow-ignore-next-line complexity — orchestrator branches reflect request/env validation + upstream error mapping; no direct unit test yet (mocked via component integration test only).
 export const GET: APIRoute = async ({ params, request }) => {
   // Edge caches key on the full URL — `?t=…` cache-busters would defeat s-maxage.
   if (new URL(request.url).search !== "") {
@@ -90,67 +135,25 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   const id = params.id;
   if (typeof id !== "string" || !allowedSparklineIds.has(id)) {
-    return new Response(JSON.stringify({ error: "unknown sparkline id" }), {
-      status: 404,
-      headers: rejectCacheHeaders,
-    });
+    return errorResponse("unknown sparkline id", 404);
   }
 
   const host = import.meta.env.POSTHOG_HOST;
   const apiKey = import.meta.env.POSTHOG_PROJECT_API_KEY;
   const projectId = import.meta.env.POSTHOG_PROJECT_ID;
   if (!host || !apiKey || !projectId) {
-    return new Response(JSON.stringify({ error: "PostHog not configured" }), {
-      status: 503,
-      headers: errorCacheHeaders,
-    });
+    return errorResponse("PostHog not configured", 503);
   }
 
   try {
-    const listUrl = new URL(`/api/projects/${projectId}/insights/`, host);
-    listUrl.searchParams.set("short_id", id);
-    const list = await fetchJSON(listUrl.toString(), apiKey);
-    if (!isInsightListResponse(list)) {
-      return new Response(JSON.stringify({ error: "unexpected list shape" }), {
-        status: 502,
-        headers: errorCacheHeaders,
-      });
-    }
-    const insightId = list.results.find((i) => i.short_id === id)?.id;
-    if (!insightId) {
-      return new Response(JSON.stringify({ error: "insight not found" }), {
-        status: 404,
-        headers: rejectCacheHeaders,
-      });
-    }
-
-    const detailUrl = new URL(`/api/projects/${projectId}/insights/${insightId}/`, host);
-    detailUrl.searchParams.set("refresh", "force_blocking");
-    const detail = await fetchJSON(detailUrl.toString(), apiKey);
-    if (!isInsightDetail(detail)) {
-      return new Response(JSON.stringify({ error: "unexpected detail shape" }), {
-        status: 502,
-        headers: errorCacheHeaders,
-      });
-    }
-    const data = detail.result[0]?.data;
-    if (!Array.isArray(data) || !data.every((n) => typeof n === "number")) {
-      return new Response(JSON.stringify({ error: "unexpected payload shape" }), {
-        status: 502,
-        headers: errorCacheHeaders,
-      });
-    }
-
-    const total = data.reduce((a, b) => a + b, 0);
+    const { total, data } = await resolveInsightSeries(host, projectId, apiKey, id);
     return new Response(JSON.stringify({ value: formatTotal(total), data }), {
       status: 200,
       headers: successCacheHeaders,
     });
   } catch (error) {
+    if (error instanceof UpstreamError) return errorResponse(error.message, error.status);
     const message = error instanceof Error ? error.message : "unknown error";
-    return new Response(JSON.stringify({ error: message }), {
-      status: 502,
-      headers: errorCacheHeaders,
-    });
+    return errorResponse(message, 502);
   }
 };

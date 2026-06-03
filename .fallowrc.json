@@ -1,0 +1,19 @@
+{
+  "entry": [
+    "src/pages/**/*.{astro,ts,tsx}",
+    "scripts/*.{ts,tsx}",
+    "astro.config.mjs",
+    "tests/**/*.test.ts",
+    "src/**/*.test.{ts,tsx}"
+  ],
+  "ignoreDependencies": [
+    "@fontsource/inter",
+    "@astrojs/react",
+    "@astrojs/sitemap",
+    "@astrojs/vercel",
+    "@tailwindcss/vite"
+  ],
+  "health": {
+    "maxCrap": 75
+  }
+}
