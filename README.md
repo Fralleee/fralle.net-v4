@@ -29,7 +29,7 @@ A single-page, content-driven portfolio that ships ~zero JavaScript by default. 
 - **Live sparklines** from PostHog, proxied through a Vercel serverless route with edge caching (`s-maxage=600, stale-while-revalidate=86400`).
 - **Env-driven availability toggle** — flip the "Open to new roles" badge by changing one Vercel env var. No code change, no third-party feature flag service.
 - **Generated assets** — favicon set and OpenGraph image rebuilt from `src/assets/icon.svg` on every `dev`/`build`.
-- **Strict tooling**: Biome (lint + format), Knip (unused exports/deps), Lefthook git hooks, `bun test` + `happy-dom` + Testing Library.
+- **Strict tooling**: Biome (lint + format), Fallow (unused exports/deps), Lefthook git hooks, `bun test` + `happy-dom` + Testing Library.
 
 ## Stack
 
@@ -40,8 +40,8 @@ A single-page, content-driven portfolio that ships ~zero JavaScript by default. 
 | Styles | [Tailwind v4](https://tailwindcss.com) via `@tailwindcss/vite` |
 | Package manager + runtime | [Bun](https://bun.sh) |
 | Lint + format | [Biome](https://biomejs.dev) |
-| Unused deps / exports | [Knip](https://knip.dev) |
-| Git hooks | [Lefthook](https://lefthook.dev) (pre-commit: Biome + typecheck · pre-push: Knip) |
+| Unused deps / exports | [Fallow](https://fallow.mintlify.app/) |
+| Git hooks | [Lefthook](https://lefthook.dev) (pre-commit: Biome + typecheck · pre-push: Fallow) |
 | Test runner | `bun test` + `happy-dom` + Testing Library |
 | CI | GitHub Actions (`bun run ci` on PRs and `main`) |
 | Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel` adapter) |

@@ -1,0 +1,4 @@
+{
+  "entry": ["src/pages/**/*.{astro,ts,tsx}", "scripts/*.{ts,tsx}"],
+  "ignoreDependencies": ["@fontsource/inter"]
+}

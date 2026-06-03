@@ -10,5 +10,5 @@ pre-commit:
 
 pre-push:
   jobs:
-    - name: knip
-      run: bun knip
+    - name: fallow
+      run: bun fallow

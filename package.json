@@ -20,9 +20,9 @@
     "lint": "biome check",
     "format": "biome check --write",
     "typecheck": "astro check",
-    "knip": "knip",
+    "fallow": "fallow",
     "test": "bun test",
-    "ci": "bun run lint && bun run typecheck && bun run knip && bun run test && bun run build",
+    "ci": "bun run lint && bun run typecheck && bun run fallow && bun run test && bun run build",
     "prepare": "lefthook install"
   },
   "dependencies": {
@@ -50,7 +50,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vercel/og": "0.11.1",
-    "knip": "6.12.0",
+    "fallow": "^2.87.0",
     "lefthook": "2.1.6",
     "png-to-ico": "3.0.1",
     "typescript": "6.0.3"
